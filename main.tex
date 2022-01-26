@@ -1,7 +1,10 @@
 \documentclass[a4paper]{article}
 
-\usepackage[english]{babel}
 \usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage[english]{babel}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
@@ -12,29 +15,34 @@
 \maketitle
 
 \begin{abstract}
-    Networks are a great model for analysing and understanding real world complex systems. A very important feature of these network models is \emph{community detection}. Community detection allows us to identify clusters in the network that are well connected amongst eachother. If a network is being used to model a real world system then, finding this structure has many implications about the behaviour of the system. This essay will discuss multiple methods for community detection in networks and their applications to the analysis of real world complex systems.\cite{greenwade93}
+    Networks are a great model for analysing and understanding real world complex systems. A very important feature of these network models is \emph{community detection}. Community detection allows us to identify clusters in the network that are well connected amongst eachother. If a network is being used to model a real world system then finding this structure has many implications about the behaviour of the system. This essay will discuss multiple methods for community detection in networks and their applications to the analysis and understanding of real world complex systems. \\
 \end{abstract}
 
 \newpage
 
 \tableofcontents
 \listoftodos
+\todo[backgroundcolor=red]{KEY: NOT STARTED}
+\todo[backgroundcolor=orange]{KEY: IN PROGRESS}
+\todo[backgroundcolor=magenta]{KEY: DRAFT FINISHED}
+\todo[backgroundcolor=blue]{KEY: IN REVIEW}
+\todo[backgroundcolor=green]{KEY: COMPLETED}
 
 \newpage
 
-\section{Introduction to Networks}
+\section{Introduction to Networks}\label{sec:Introduction to Networks}
 \input{tex/1}
 \newpage
 
-\section{Properties of Networks}
+\section{Properties of Networks}\label{sec:Properties of Networks}
 \input{tex/2}
 \newpage
 
-\section{Community Detection}
+\section{Community Detection}\label{sec:Community Detection}
 \input{tex/3}
 \newpage
 
-\section{Applications of Community Detection}
+\section{Applications of Community Detection}\label{sec:Appliations of Community Detection}
 \input{tex/4}
 \newpage
 
