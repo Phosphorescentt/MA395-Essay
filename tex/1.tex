@@ -1,7 +1,7 @@
 \todo[backgroundcolor=yellow]{SEC: Introduce Network Theory}
-Networks in the technical sense are analogous to networks in the nontechnical sense - a collection of objects paired with a number of connections that can link any two objects. \emph{Networks: An Introduction} by \emph{Mark Newman} lists \emph{Technological Networks}, \emph{Social Networks}, \emph{Information Networks} and \emph{Biological Networks} as different systems that are modelled by the technical interpretation of a network.\cite[Contents]{newman10}. A brief example of a network would be something like the following: Imagine you and your friends are represented as dots (nodes or vertices) on a piece of paper. Then if any two people are friends, the dots representing those people are connected by a line (edge). If you then repeat this process by asking your friends to list all their friends and so on, you will end up with a simple model of a \emph{social network}.
+Networks in the technical sense are analogous to networks in the nontechnical sense - a collection of objects paired with a number of connections that can link any two objects. \emph{Networks: An Introduction} by \emph{Mark Newman} lists \emph{Technological Networks}, \emph{Social Networks}, \emph{Information Networks} and \emph{Biological Networks} as different systems that are modelled by the technical interpretation of a network.\cite[Contents]{newman10}. A brief example of a network would be something like the following: Imagine you and a number of people you speak to regularly are represented as dots (nodes or vertices) on a piece of paper. Then if any two people are friends, the dots representing those people are connected by a line (edge). If you then repeat this process by asking your acquaintances to list all their friends and so on, you will end up with a simple model of a \emph{social network}.
 
-As one might imagine, now that we have this model it's easy to be curious about any structure that emerges that we can detect and abuse to develop an understanding of the real world system that we are representing. The structure that this essay will explore is that of \emph{communities}. Vaguely speaking, communities are subsets of a network that are \emph{densely connected} amongst themselves. I.e. there is some notion of any node within a community being more closely connected to other nodes in the community than nodes outside the community in the average case. Before we dive into the details of communities and detecting them, I wish to provide some motivation by way of example of the kinds of situations that networks can arise and why they are the natural model for the related systems.
+Now that we have this model it's easy to be curious about any structure that emerges that we can detect and abuse to develop an understanding of the real world system that we are representing. The structure that this essay will explore is that of \emph{communities}. Vaguely speaking, communities are subsets of a network that are \emph{densely connected} amongst themselves. I.e. there is some notion of any node within a community being more closely connected to other nodes in the community than nodes outside the community in the average case. Before we dive into the details of communities and detecting them, I wish to provide some motivation by way of example of the kinds of situations that networks can arise and why they are the natural model for the related systems.
 
 \subsection{Social Networks}\label{sec:Social Networks}
 \todo[backgroundcolor=yellow]{SEC: Models of Networks}
@@ -35,10 +35,25 @@ There, of course, exist different ways to represent social networks. The way in 
     \label{fig:southernwomen}
 \end{figure}
 
-
 \subsection{Technological Networks}\label{sec:Technological Networks}
+As a result of our intensely and digitally connected world, technological networks are of significant interest to researchers. The easiest example to consider is the Internet. The internet consists of many computers all connected by copper or fibre cables which signals are sent through to transmit data. As one might imagine, in the model, the computers are nodes and the cables are the edges. The internet needs to be robust against software and hardware failures and this is where the idea of commnity detection can help us. Saying that we want the internet to be robust is the same as saying that we want every node in the network to be strongly connected to every other node i.e. the number of possible routes between any two nodes is large. This means that, in the philosophy of community detection, we want the internet to act as one large community rather than multiple smaller communities that are loosley connected. An alternative way of looking at this is that once we've managed to identify the communities, we can then figure out which edges and noes are the critical ones that allow passage from one community to another. This allows us to reinforce those edges and nodes to reduce the potential for failure.
+
+\begin{figure}
+    \begin{center}
+        % \includegraphics[width=0.95\textwidth]{}
+        \missingfigure{Rendering of Some Internet Dataset}
+    \end{center}
+    \caption{A rendering of the Internet}
+    \label{fig:internet}
+\end{figure}
+
+Yet another example of a technological network would be the UK Power Grid. Network theory is a useful model here as with the UK Power Grid we're trying to solve exactly the same problem as with the internet --- we want the system to be robust against hardware or software failures.
+\todo[backgroundcolor=brown]{After this point I couldn't really find anything concrete to relate these things to commmunity detection. Could it be woth removing them?}
+
 \subsection{Information Networks}\label{sec:Information Networks}
-\subsection{Biological Networks}\label{sec:Biological Networks}
+The easiest example of an information network is that which is generated by looking back through the citations on a paper recursively. If Paper A references Paper B, then we will draw a directed edge connecting Paper A to Paper B. This will generate a network that shows which papers are referenced by which other papers and how information is reused. Applying community detection to such a network would show us the different academic working groups and perhaps even different fields or subfields of a subject.
+
+Another example of an information network is the World Wide Web which differs from the internet in that it refers to the webpages hosted on the internet rather than the servers and cables themselves. Mapping the world wide web as a network shows us communities of websites that regularly reference each other.
 
 \todo[backgroundcolor=red]{SEC: Definition of a Network}
 \todo[backgroundcolor=red]{SEC: Different Types of Network}
