@@ -5,22 +5,28 @@ Community detection relies on us knowing lots about the underlying structure of 
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An undirected network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$.\label{def:undirected_network}
 \end{definition}
 
-The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more \emph{directed} models.
+The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
 
 \todo[backgroundcolor=orange]{SEC: Different Types of Network}
 
 \begin{definition}{(Directed network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$.\label{def:directed_network}
 \end{definition}
 
 The intuition for directed graphs, is that edges may only be travelled along in one way. This comes in handy for modelling more intricate systems. The final network type of interest is that of the weighted network.
 
 \begin{definition}{(Weighted network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.\label{def:weighted_network}
 \end{definition}
-\todo[backgroundcolor=red]{SEC: Interesting Properties of Networks}
+\todo[backgroundcolor=orange]{SEC: Interesting Properties of Networks}
 
-Adjacency matrices for different types of graphs \\
+The weighted network allows us to introduce some notion of how hard it is to move along a certain edge. This is useful when modeling things like traffic flow. [citation needed] These definitions, however, are no good without a concrete way of analysing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
+
+\begin{definition}{(Adjacency matrix)}
+    The adjacency matrix of a network, $N = (V, E)$, is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise it is $0$.\label{def:adjacency_matrix}
+\end{definition}
+
+The adjacency matrix gives us our first way of representing a network. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but this does not necessarily mean that $a_{ji} = 1$. We also get something similar for weighted networks where we set $a_{ij} = w$ the weight of the edge connecting $i$ and $j$ in $N$.
 
 Bipartite graphs \\
 
