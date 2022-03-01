@@ -25,23 +25,31 @@ The weighted network allows us to introduce some notion of how hard it is to mov
 The above definitions of a network are likely more technical than we will ever need because once we have introduced the notion of of an adjacency matrix, that becomes our go to representation of a network.
 
 \subsection{Adjacency Matrices}
-The objects defined above are meaningless without a concrete way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
+The objects defined above are meaningless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
 
 \begin{definition}{(Adjacency matrix)}
-    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$.\label{def:adjacency_matrix}
+    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$.\label{def:adjacency_matrix}\cite[111]{newman10}
 \end{definition}
 
 \begin{figure}
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
-            % \includegraphics[width=\textwidth]{img/zachary_spring}
-            \missingfigure{Simple graph}
+            \includegraphics[width=\textwidth]{img/simple_example}
             \caption{Simple graph}
             \label{fig:simple_network}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
-            % \includegraphics[width=\textwidth]{img/zachary_circle}
-            \missingfigure{Adjacency matrix of simple network}
+            \begin{center}
+            $
+            \begin{pmatrix}
+                0 & 1 & 1 & 0 & 0 \\
+                1 & 0 & 0 & 1 & 0 \\
+                1 & 0 & 0 & 1 & 0 \\
+                0 & 1 & 1 & 0 & 1 \\
+                0 & 0 & 0 & 1 & 0 \\
+            \end{pmatrix}
+            $
+            \end{center}
             \caption{Adjacency matrix}
             \label{fig:simple_network_adjacency_matrix}
         \end{subfigure}
@@ -50,7 +58,7 @@ The objects defined above are meaningless without a concrete way of mathematical
     \label{fig:simple_network_and_adjacency_matrix}
 \end{figure}
 
-The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but this does not necessarily mean that $a_{ji} = 1$. We also get something similar for weighted networks where we set $a_{ij} = w$ the weight of the edge connecting $i$ and $j$ in $N$.
+The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but this does not necessarily mean that $a_{ji} = 1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
 
 \subsection{Bipartite Graphs}
 Not really sure if it's worth talking about these.
@@ -59,10 +67,37 @@ Not really sure if it's worth talking about these.
 When we're analysing a network, we're very often interested in which vertices are reachable from any given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way
 
 \begin{definition}{(Path)}
-    Let $N = (V, E)$ be a network. A path is a sequence of distinct vertices $v_1, \dots, v_n \in E$ such that $(e_i, e_{i+1}) \in E$ for all $i = 1, \dots, n-1$. In other words, a path is a sequence of distinct vertices such that every consecutive pair of vertices is connected by an edge in $E$.
+    Let $N = (V, E)$ be a network. A path is a sequence of vertices $v_1, \dots, v_n \in V$ such that $(v_i, v_{i+1}) \in E$ for all $i = 1, \dots, n-1$. In other words, a path is a sequence of vertices such that every consecutive pair of vertices is connected by an edge in $E$. We say that the length of a path is the number of edges $(v_i, v_{i+1})$ that are traversed by the path. Note that under this definition, we may pass through each vertex in the network more than once.
 \end{definition}
 
-Paths are an important concept in community detection as they allow us to phrase questions in rigorous terms as opposed to loose concepts of connectedness.
+Paths are an important concept in community detection as they allow us to phrase questions in rigorous terms as opposed to loose concepts of connectedness. Paths also give us our first look into the usefulness of the adjacency matrix. Using the adjacency matrix, it is very simple to determine whether there exists a path between two vertices $i$ and $j$. Paraphrasing Newman \cite[137]{newman10}, suppose our adjacency matrix is given by A. If $i$ and $j$ are directly connected then $A_{ij} = 1$ and we are done. If $A_{ij} = 0$ then pick some $k$ such that $A_{ik} = 1$. Then it is simple to see that if $A_{kj} = 1$ then $A_{ik}A_{kj} = 1$ which implies that $i$ and $j$ are connected via $k$. In fact, we can even go so far as to calculate the total number of ways to draw a path of length two between $i$ and $j$, $N^{(2)}_{ij}$, in the following way:
+
+$$
+N_{ij}^{(2)} = \sum_{k=1}^n A_{ik}A_{kj} = [A^2]_{ij}
+$$
+
+where $[\cdot]_{ij}$ denotes the $(i, j)$-th element of the given matrix. Clearly, this process actually generalises to paths of arbitrary length $r$ and we can see that
+
+$$
+N_{ij}^{(r)} = [A^r]_{ij}
+$$
+
+Also note that this solution counts each path but going in opposite directions. For example, you might have a path going $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 1$ which will also get counted separately by this method as the following $1 \rightarrow 2 \rightarrow 5 \rightarrow 4 \rightarrow 1$. This result isn't very useful, but it goes to show that the adjacency matrix we introduced before is useful and provides insight about the structure of our network. We call a path that starts and ends at the same place a loop and we can actually calculate the number of loops of length $r$ using the spectral properties of the adjacency matrix. Paraphrasing Newman again \cite[137]{newman10}, our adjacency matrix $A$ can be written as $A = UDU^T$ because $A$ is symmetric meaning that it has $n$ real and non-negative eigenvalues with real valued eigenvectors. In this form, $U$ is our matrix of eigenvectors and $D$ is the diagonal matrix containing the eigenvalues. We know that $A^r = (UKU^T)^r = UK^RU^T$ and then the number of loops is given by
+
+$$
+\begin{align}
+    L_r &= \text{Tr}(UK^rU^T) = \text{Tr}(U^TUK^r) = \text{Tr}(K^r) \\
+    & = \sum_i k_i^r
+\end{align}
+$$
+
+where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further. \cite[138]{newman10}. Typically, we are interested in types of path known as \emph{geodesic paths}.
+
+\begin{definition}{(Geodesic Path)}
+    A geodesic path (more commonly referred to as a shortest path) is a path through a network such that no shorter path exists.
+\end{definition}
+
+Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter}.
 
 \subsection{Components}
 
