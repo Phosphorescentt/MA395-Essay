@@ -60,8 +60,43 @@ The objects defined above are meaningless without a rigorous way of mathematical
 
 The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but this does not necessarily mean that $a_{ji} = 1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
 
-\subsection{Bipartite Graphs}
-Not really sure if it's worth talking about these.
+\subsection{The Network Laplacian}
+The Network Laplacian is a simple extension of the adjacency matrix with more interesting properties.
+
+\begin{definition}{(Network Laplacian)}
+    The Laplacian of a network $N = (V, E)$, denoted by $L$ is given by the following:
+    $$ L = D - A $$
+    where $A$ is the adjacency matrix of the network and $D$ is a diagonal matrix containing the degrees of each vertex in the network such that $d_{ii} = \text{deg}(v_i)$ and $d_{ij} = 0$ if $i \not= j$.
+\end{definition}
+
+\begin{figure}
+    \begin{center}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{img/simple_example}
+            \caption{Simple graph}
+            \label{fig:simple_network_2}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \begin{center}
+            $
+            \begin{pmatrix}
+                 2 & -1 & -1 &  0 &  0 \\
+                -1 &  2 &  0 & -1 &  0 \\
+                -1 &  0 &  2 & -1 &  0 \\
+                 0 & -1 & -1 &  2 & -1 \\
+                 0 &  0 &  0 & -1 &  1 \\
+            \end{pmatrix}
+            $
+            \end{center}
+            \caption{Laplacian}
+            \label{fig:simple_network_laplacian}
+        \end{subfigure}
+    \end{center}
+    \caption{A simple network and its Laplacian}
+    \label{fig:simple_network_and_laplacian}
+\end{figure}
+
+Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as before and it's Laplacian matrix.
 
 \subsection{Paths}
 When we're analysing a network, we're very often interested in which vertices are reachable from any given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way
@@ -85,10 +120,10 @@ $$
 Also note that this solution counts each path but going in opposite directions. For example, you might have a path going $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 1$ which will also get counted separately by this method as the following $1 \rightarrow 2 \rightarrow 5 \rightarrow 4 \rightarrow 1$. This result isn't very useful, but it goes to show that the adjacency matrix we introduced before is useful and provides insight about the structure of our network. We call a path that starts and ends at the same place a loop and we can actually calculate the number of loops of length $r$ using the spectral properties of the adjacency matrix. Paraphrasing Newman again \cite[137]{newman10}, our adjacency matrix $A$ can be written as $A = UDU^T$ because $A$ is symmetric meaning that it has $n$ real and non-negative eigenvalues with real valued eigenvectors. In this form, $U$ is our matrix of eigenvectors and $D$ is the diagonal matrix containing the eigenvalues. We know that $A^r = (UKU^T)^r = UK^RU^T$ and then the number of loops is given by
 
 $$
-\begin{align}
+\begin{aligned}
     L_r &= \text{Tr}(UK^rU^T) = \text{Tr}(U^TUK^r) = \text{Tr}(K^r) \\
     & = \sum_i k_i^r
-\end{align}
+\end{aligned}
 $$
 
 where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further. \cite[138]{newman10}. Typically, we are interested in types of path known as \emph{geodesic paths}.
@@ -100,7 +135,50 @@ where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results
 Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter}.
 
 \subsection{Components}
+Components are a very important concept when we're considering community detection as communities are, in some sense, almost clusters
+
+Components are a natural consequence of the notion of paths. Simply put, components are sets of vertices in the graph that are all connected to each other via paths.
+
+\begin{definition}{(Component)}
+    A component is a subset $C$, of the vertex set $V$ such that if $v_1, v_2 \in C$ then $v_1$ and $v_2$ are connected by a path. Furthermore if $v_3 \not\in C$ then $v_3$ is not connected to either $v_1$ or $v_2$ by any path.
+\end{definition}
+
+Components are an important concept in the study of community detection. Recall the intuition for a community introduced in section \ref{sec:Introduction to Networks}. From here, it is clear to see a similarity between the notion of a community and that of a component. Loosely put, a community is a subset of a network that is \emph{nearly} a component.
 
 \subsection{Cut Sets}
+Cut sets, as the name would suggest are sets of vertices that cut the network into multiple components. 
 
-\subsection{The Graph Laplacian}
+\begin{definition}{(Cut Set)}
+    A cut set is a subset, $\mathcal{C}$, of the edge set, $E$, such that the network $N = (V, E\setminus\mathcal{C})$ has more than one component.
+\end{definition}
+
+We also have the notion of a minimum cut set which is a cut set of minimum cardinality. I.e. it's the smallest subset of the vertices that can be removed which will disconnect the network into two components. Similarly to components, minimum cut sets are also important in the analysis of communities as the size of the minimum cut gives us some notion of how strongly connected our network is. A larger cut set means that we require more edges to be removed from the network to get multiple connected components. This suggests that a network with a larger minimum cut is more strongly connected and a network with a smaller minimum cut is more loosely connected. An example of such structure can be seen in Figure \ref{fig:connectivity_strengths}.
+
+\begin{figure}
+    \begin{center}
+        \begin{subfigure}[b]{0.45\textwidth}
+            % \includegraphics[width=\textwidth]{img/simple_example}
+            \missingfigure{Strongly connected network}
+            \caption{A strongly connected network}
+            \label{fig:strongly_connected_network}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \missingfigure{Loosely connected network}
+            \caption{A loosely connected network}
+            \label{fig:loosely_connected_network}
+        \end{subfigure}
+    \end{center}
+    \caption{A simple network and its adjacency matrix}
+    \label{fig:connectivity_strengths}
+\end{figure}
+
+
+\subsection{Degree Distribution}
+
+\subsection{Measures Derived from Walks and Paths}
+
+\subsection{Clustering coefficient}
+
+\subsection{Centrality}
+
+\subsection{Spectral Properties}
