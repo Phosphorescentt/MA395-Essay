@@ -168,17 +168,81 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
             \label{fig:loosely_connected_network}
         \end{subfigure}
     \end{center}
-    \caption{A simple network and its adjacency matrix}
+    \caption{Two networks with differing connectedness}
     \label{fig:connectivity_strengths}
 \end{figure}
 
 
 \subsection{Degree Distribution}
+We already know that the degree of a node is the number of edges incident on that node. In the context of adjacency matrices, the degree of node $i$ is defined by 
+
+$$
+\text{deg}(i) = d_i = \sum_{j=1}^NA_{ij}
+$$
+
+There also exist similar definitions for both weighted and directed networks. Using this definition of the degree of a matrix, we can define something called the \emph{degree distribution}. The degree distribution, as the name suggests, is a frequency distribution of all the degrees in the network. This distribution is often denoted by the function $p(k)$.
+
+\begin{figure}
+    \begin{center}
+        \begin{subfigure}[b]{0.45\textwidth}
+            % \includegraphics[width=\textwidth]{img/simple_example}
+            \missingfigure{Zachary Karate Club}
+            \caption{The Zachary Karate Club dataset}
+            \label{fig:zachary_karate_club_degree}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \missingfigure{Degree distribution of the Zachary Karate Club dataset}
+            \caption{Degree Distribution of the Zachary Karate Club dataset}
+            \label{fig:loosely_connected_network}
+        \end{subfigure}
+    \end{center}
+    \caption{A network and it's associated degree distribution}
+    \label{fig:connectivity_strengths}
+\end{figure}
+
+According to Renaud Lambiotte, these degree distributions often have very long tails which are regularly described by a power law. i.e.
+
+$$ p(k) \propto k^{-\gamma} $$
+
+where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some "cutoff degre" where the structure changes and $p(d)$ quickly decreases to $0$. Curiously, this leads us to a formalisation of the friendship paradox wherein the average number of friends of any given node is less than the average degree of nodes adjacent to any given node. \todo{in this section I'm finding it really hard not to just copy from Renaud's notes.}
 
 \subsection{Measures Derived from Walks and Paths}
+I think I'll probably leave this one out. It's not very interesting.
 
 \subsection{Clustering coefficient}
+When thinking about community detection, we're actually interested in the connectedness of different parts of the network and in particular we're interested in the interconnectedness of a set of vertices. One way to measure the interconnectedness of a vertex with the surrounding nodes is using the clustering coefficient. The clustering coefficient counts the number of triangles in the network that include a given vertex. We define the clustering coefficient in the following way
+
+$$ C_i = \frac{\text{number of triangles including the }i\text{th node}}{k_i(k_i-1)/2} $$
+
+This quantity measures and normalises the number of triangles in the immediate vicinity of the vertex $i$. Using the clustering coefficient, we can extend this to consider the whole network.
+
+$$ C = \frac{1}{N}\sum_{i=1}^NC_i $$
+
+Again this total measure of clustering is normalised such that $0 \leq C \leq 1$.
 
 \subsection{Centrality}
+Different measures of centrality aim to convey the importance of certain nodes in the network. In this section, I will introduce some examples from Renaud Lambiotte's notes.
+
+\subsubsection{Closeness Centrality}
+The closeness centrality is the inverse of the mean distance between a node $i$ and every other node in the network. Notationally, this looks like the following
+
+$$ \text{closeness}_i = \frac{N - 1}{\sum_{j=1; j\not=i}^N d(i, j)} $$
+
+where $d(i, j)$ is the smallest number of moves from one node to another required to reach $j$ from $i$.
+
+\subsubsection{Betweenness Centrality}
+A slightly more complex measure of centrality is the betweenness centrality. This measures each node's contribution to the number of shortest paths that exist in the network.
+
+$$ \text{betweenness}_i = \frac{2}{(N-1)(N-2)}\sum_{j=1; j\not=i}^N \sum_{l=1; l\not=i}^{j-1} \frac{\sigma_{jl}^i}{\sigma_{jl}} $$
+
+where $\sigma_{jl}$ denotes the total number of shortest paths connecting nodes $j$ and $l$ and $\sigma_{jl}^i$ is the number of such paths containing the node $i$.
+
+\subsubsection{Katz Centrality}
+The Katz measure of centrality considers all walks between two nodes $i$ and $j$, but gives each one less weighting as it increases in length by scaling it by a constant $\alpha \in (0, 1)$. The Katz centrality of a node $i$ is defined by
+
+$$ \text{Katz}_i = \sum_{i=1}^N[(I - \alpha A)^{-1}]_{ij} $$
+
+\subsubsection{PageRank}
+PageRank is a centrality measure developed with the advent of the internet in an attempt to improve search engine indexing.\todo{CITATION NEEDED} The actual algorithm for calculating the PageRank of a node is too intricate to go into detail in this essay, but the technical definition is the "stationary density of a discrete-time random walk."\cite[19]{oxford:renaud_notes}
 
 \subsection{Spectral Properties}
