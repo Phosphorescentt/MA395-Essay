@@ -18,13 +18,12 @@ The intuition for directed graphs, is that edges may only be travelled along in 
 \begin{definition}{(Weighted network)}
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.\cite[1]{oxford:renaud_notes}\label{def:weighted_network}
 \end{definition}
-\todo[backgroundcolor=yellow]{SEC: Interesting Properties of Networks}
 
 The weighted network allows us to introduce some notion of how hard it is to move along a certain edge. This is useful when modeling things like traffic flow. [citation needed]
 
 The above definitions of a network are likely more technical than we will ever need because once we have introduced the notion of of an adjacency matrix, that becomes our go to representation of a network.
 
-\subsection{Adjacency Matrices}
+\subsection{Adjacency Matrices}\todo[backgroundcolor=yellow]{SEC: Interesting Properties of Networks}
 The objects defined above are meaningless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
 
 \begin{definition}{(Adjacency matrix)}
