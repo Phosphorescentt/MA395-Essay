@@ -1,4 +1,4 @@
-\todo[backgroundcolor=orange]{SEC: Definition of a Network}
+\todo[backgroundcolor=yellow]{SEC: Definition of a Network}
 Community detection relies on us knowing lots about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later.
 
 \begin{definition}{(Undirected network)}
@@ -7,7 +7,7 @@ Community detection relies on us knowing lots about the underlying structure of 
 
 The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
 
-\todo[backgroundcolor=orange]{SEC: Different Types of Network}
+\todo[backgroundcolor=yellow]{SEC: Different Types of Network}
 
 \begin{definition}{(Directed network)}
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$.\cite[1]{oxford:renaud_notes}\label{def:directed_network}
@@ -18,7 +18,7 @@ The intuition for directed graphs, is that edges may only be travelled along in 
 \begin{definition}{(Weighted network)}
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.\cite[1]{oxford:renaud_notes}\label{def:weighted_network}
 \end{definition}
-\todo[backgroundcolor=orange]{SEC: Interesting Properties of Networks}
+\todo[backgroundcolor=yellow]{SEC: Interesting Properties of Networks}
 
 The weighted network allows us to introduce some notion of how hard it is to move along a certain edge. This is useful when modeling things like traffic flow. [citation needed]
 
@@ -221,7 +221,7 @@ $$ C = \frac{1}{N}\sum_{i=1}^NC_i $$
 Again this total measure of clustering is normalised such that $0 \leq C \leq 1$.
 
 \subsection{Centrality}
-Different measures of centrality aim to convey the importance of certain nodes in the network. In this section, I will introduce some examples from Renaud Lambiotte's notes.
+Different measures of centrality aim to convey the importance of certain nodes in the network. In this section, I will introduce some examples from Renaud Lambiotte's notes.\cite[19]{oxford:renaud_notes}
 
 \subsubsection{Closeness Centrality}
 The closeness centrality is the inverse of the mean distance between a node $i$ and every other node in the network. Notationally, this looks like the following
@@ -246,3 +246,9 @@ $$ \text{Katz}_i = \sum_{i=1}^N[(I - \alpha A)^{-1}]_{ij} $$
 PageRank is a centrality measure developed with the advent of the internet in an attempt to improve search engine indexing.\todo{CITATION NEEDED} The actual algorithm for calculating the PageRank of a node is too intricate to go into detail in this essay, but the technical definition is the "stationary density of a discrete-time random walk."\cite[19]{oxford:renaud_notes}
 
 \subsection{Spectral Properties}
+The final properties of interest are spectral in nature. Spectral properties are properties that are based on the eigendecomposition of either the adjacency matrix, the Laplacian or a modified version of the Laplacian called the normalised Laplacian. If the Laplacian is defined by
+$$ L = D - A, $$
+Then the normalised Laplacian is given by 
+$$ \tilde L = D^{-1/2}LD^{-1/2} = I - D^{-1/2}AD^{-1/2}. $$
+
+By definition, the adjacency matrix, the Laplacian and the normalised Laplacian are symmetric. This means that the eigenvalues of each matrix are all real and the corresponding eigenvectors form an orthonormal basis. It's important to note that the two Laplacian matrices always have $\lambda_1 = 0$. In fact, if the network is connected, $\lambda_1 = 0$ and $\lambda_i > 0 \; \forall i > 1$. This is our first spectral property of a matrix.
