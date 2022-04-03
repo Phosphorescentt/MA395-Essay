@@ -1,7 +1,41 @@
-\todo[backgroundcolor=red]{SEC: Introduction to Community Detection}
-As allured to in the previous chapters, detecting communities is of great interest and as such there a number of ways to do it. The process of community detection involves analysing the network and finding groups of nodes in the network that are more densely connected amongst themselves than they are to the rest of the network. This notion forms the basis for most community detection methods and algorithms. However, it turns out that it's difficult to come up with a good definition of a community. According to Fortunato, ``In most cases, communitys are algorithmically defined, i.e. they are just the final product of the algorithm without a precise \emph{a priori} definition."\cite[84]{fortunato} In this section, we will discuss the notions of ``community" that underpin a number of interesting methods in community detection before going into detail about the algorithms themselves.
+\todo[backgroundcolor=orange]{SEC: Introduction to Community Detection}
+As allured to in the previous chapters, detecting communities is of great interest and as such there a number of ways to do it. The process of community detection involves analysing the network and finding groups of nodes in the network that are more densely connected amongst themselves than they are to the rest of the network. This notion forms the basis for most community detection methods and algorithms. However, it turns out that it's difficult to come up with a good definition of a community. In fact, it turns out that ``In most cases, communities are algorithmically defined, i.e. they are just the final product of the algorithm without a precise \emph{a priori} definition."\cite[84]{fortunato} In this section, we will discuss the notions of ``community" that underpin a number of interesting methods in community detection before going into detail about the algorithms themselves.
 
-\todo[backgroundcolor=red]{SEC: Background for Community Detection}
+\todo[backgroundcolor=orange]{SEC: Background for Community Detection}
+A simple example of the aforementioned notion comes in the form of inter and intra-cluster densities as discussed by Fortunato.\cite[84]{fortunato}. This idea assumes that we have a network $N$ and a subnetwork $C \subseteq N$ i.e. $C$ is also a network where every node and edge in $C$ is also in $N$, but the converse is not necessarily true. Suppose we want to determine whether $C$ is a community inside $N$. To aid us in our investigation, we can define the following two quantities,
+
+\begin{enumerate}
+    \item Intra-cluser density: $\delta_{\text{int}}(C) = \frac{\text{\# of internal edges of C}}{n_c(n_c - 1)/2} $,
+    \item Inter-cluser density: $\delta_{\text{ext}}(C) = \frac{\text{\# of external edges of C}}{n_c(n_c - 1)/2} $,
+\end{enumerate}
+
+where $n_c = |C|$ and internal and external edges refer to edges originating in $C$ that end inside and outside $C$ respectively. Thus the intra-cluster density is the ratio of edges originating in $C$ that remain in $C$ whilst the inter-cluster density is the ratio of edges originating in $C$ that end outside $C$. Finally, to make sense of these metrics, we introduce a fiducial marker for community structure, the average link density $\delta(N)$. Following the same intuition as before, this quantity represents the ratio of edges that are actually present in the network. Now, if $C$ were a community, we would expect that $\delta_{\text{int}}(C)$ is noticably larger than $\delta(N)$. Similarly, we would expect $\delta_{\text{ext}}(C)$ to be noticably smaller than $\delta(N)$. Getting this result is the goal of most community detection algorithms.
+
+Stricter definitions of communities come in three flavours: local definitions, global definitions and definitions based on vertex similarity. To summarise: local definitions rely on considering the structure of a given subnetwork and perhaps it's immediately adjacent neighbours; global definitions consider the structure of the whole network; and degree similarity relies on some notion of similarity between any two vertices. Each method seeks to formalise our intuition that communities should be strongly connected amongst themselves, but weakly connected to the rest of the network. To extend this intuition, we will refer to Wasserman's summary of the four general properties\cite[251-252]{wasserman_faust_1994} of what he calls ``cohesive subgroups" (but we call communities) that have influenced the formalisations and definitions of the concept in the social network literature. The following are reprinted verbatim:
+
+\begin{enumerate}
+    \item The mutuality of ties
+    \item The closeness or reachability of subgroup members
+    \item The frequency of ties amongst members
+    \item The relative frequency of ties amongst subgroup members compared to non-subgroup members
+\end{enumerate}
+
+The four points above are written in the parlance of the Social Network Analysis literature. As such, we will reprint them using terms already introduced in this essay.
+
+\begin{enumerate}
+    \item Cliques
+    \item Closeness or reachability of community members
+    \item Frequency of connections between community members
+    \item Relative frequency of connections amongst community members compared to non-community members.
+\end{enumerate}
+
+Each of these points refers to a different strategy for identifying communities. Paraphrasing Wasserman and using our terminology: Strategies based on cliques require each member of a community to be directly adjacent to each other member of a community; strategies based on closeness or reachability require that each member of a community is reachable from every other member of the same community, but adjacency is not required; strategies based on frequency of connetions between community members require that each member of the community is adjacent to many other members of the community; and strategies based on the relative frequency of connections require that members of the community are more connected amongst each other than they are to the rest of the network.
+
+These four ideas are ordered (roughly) in increasing generality and Fortunato provides an excellent summary of the journey from a rudimentary strategy using cliques to strategies involving fitness measures.\cite[84-85]{fortunato}
+
+Note to later self: I'm kind of interested in references 77 and 78 from Fortunato's writeup. Also just generally I need to give the whole "Local definitions" thing a proper read as I'm sure there's some interesting stuff to go into there.
+
+% In more detail, local definitions can vary a lot but the efficacy can also vary significantly. For example: cliques. Are cliques communities? Yes!
 
 % \todo[backgroundcolor=red]{SEC: Traditional Methods of Community Detection}
 %
