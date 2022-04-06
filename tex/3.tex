@@ -9,9 +9,13 @@ A simple example of the aforementioned notion comes in the form of inter and int
     \item Inter-cluser density: $\delta_{\text{ext}}(C) = \frac{\text{\# of external edges of C}}{n_c(n_c - 1)/2} $,
 \end{enumerate}
 
-where $n_c = |C|$ and internal and external edges refer to edges originating in $C$ that end inside and outside $C$ respectively. Thus the intra-cluster density is the ratio of edges originating in $C$ that remain in $C$ whilst the inter-cluster density is the ratio of edges originating in $C$ that end outside $C$. Finally, to make sense of these metrics, we introduce a fiducial marker for community structure, the average link density $\delta(N)$. Following the same intuition as before, this quantity represents the ratio of edges that are actually present in the network. Now, if $C$ were a community, we would expect that $\delta_{\text{int}}(C)$ is noticably larger than $\delta(N)$. Similarly, we would expect $\delta_{\text{ext}}(C)$ to be noticably smaller than $\delta(N)$. Getting this result is the goal of most community detection algorithms.
+where $n_c = |C|$ and internal and external edges refer to edges originating in $C$ that end inside and outside $C$ respectively. Thus the intra-cluster density is the ratio of edges originating in $C$ that remain in $C$ whilst the inter-cluster density is the ratio of edges originating in $C$ that end outside $C$. Finally, to make sense of these metrics, we introduce a fiducial marker for community structure, the average link density,
 
-Stricter definitions of communities come in three flavours: local definitions, global definitions and definitions based on vertex similarity. To summarise: local definitions rely on considering the structure of a given subnetwork and perhaps it's immediately adjacent neighbours; global definitions consider the structure of the whole network; and degree similarity relies on some notion of similarity between any two vertices. Each method seeks to formalise our intuition that communities should be strongly connected amongst themselves, but weakly connected to the rest of the network. To extend this intuition, we will refer to Wasserman's summary of the four general properties\cite[251-252]{wasserman_faust_1994} of what he calls ``cohesive subgroups" (but we call communities) that have influenced the formalisations and definitions of the concept in the social network literature. The following are reprinted verbatim:
+$$ \delta(N) = \frac{\text{\# of edges in}\; N}{n(n-1)/2}. $$
+
+Following the same intuition as before, this quantity represents the ratio of edges that are actually present in the network agains the total number of possible edges. Now, if $C$ were a community, we would expect that $\delta_{\text{int}}(C)$ is noticably larger than $\delta(N)$. Similarly, we would expect $\delta_{\text{ext}}(C)$ to be noticably smaller than $\delta(N)$. Getting this result is the goal of most community detection algorithms.
+
+Stricter definitions of communities come in three flavours: local definitions, global definitions and definitions based on vertex similarity. To summarise: local definitions rely on considering the structure of a given subnetwork and perhaps it's immediately adjacent neighbours; global definitions consider the structure of the whole network; and degree similarity relies on some notion of similarity between any two vertices. Each method seeks to formalise our intuition that communities should be strongly connected amongst themselves, but weakly connected to the rest of the network. To extend this intuition, we will refer to Wasserman's summary of the four general properties of what he calls ``cohesive subgroups" (but we call communities) that have influenced the formalisations and definitions of the concept in the social network literature.\cite[251-252]{wasserman_faust_1994} The following are reprinted verbatim:
 
 \begin{enumerate}
     \item The mutuality of ties
@@ -20,7 +24,7 @@ Stricter definitions of communities come in three flavours: local definitions, g
     \item The relative frequency of ties amongst subgroup members compared to non-subgroup members
 \end{enumerate}
 
-The four points above are written in the parlance of the Social Network Analysis literature. As such, we will reprint them using terms already introduced in this essay.
+The four points above are written in the parlance of the Social Network Analysis literature. As such, we will reprint them using terms more in line with our context:
 
 \begin{enumerate}
     \item Cliques
@@ -31,15 +35,22 @@ The four points above are written in the parlance of the Social Network Analysis
 
 Each of these points refers to a different strategy for identifying communities. Paraphrasing Wasserman and using our terminology: Strategies based on cliques require each member of a community to be directly adjacent to each other member of a community; strategies based on closeness or reachability require that each member of a community is reachable from every other member of the same community, but adjacency is not required; strategies based on frequency of connetions between community members require that each member of the community is adjacent to many other members of the community; and strategies based on the relative frequency of connections require that members of the community are more connected amongst each other than they are to the rest of the network.
 
-These four ideas are ordered (roughly) in increasing generality and Fortunato provides an excellent summary of the journey from a rudimentary strategy using cliques to strategies involving fitness measures.\cite[84-85]{fortunato}
+These four ideas for definitions are such that the communities they generate are considered maximal subnetworks i.e. adding another node to the subnetwork would remove the subnetwork's community propery. The ideas are also ordered (roughly) in decreasing strictness and Fortunato provides an excellent summary of the journey from a rudimentary strategy using cliques to strategies involving fitness measures in the case of local definitions.\cite[3.2.2]{fortunato}\todo{Can I cite sections like this?}
 
-Note to later self: I'm kind of interested in references 77 and 78 from Fortunato's writeup. Also just generally I need to give the whole "Local definitions" thing a proper read as I'm sure there's some interesting stuff to go into there.
+Global definitions, of course, follow the same notion, but they have a different motivation. Whilst local definitions are used when we're interested in just the structure of the subnetwork, global definitions are used when the community structure doesn't make sense without the context of the rest of the network and vice versa. Global definitions are more often indirect definitions in the sense that the communities are defined by the output of an algorithm implementing a global method. Curiously though, there are a set of direct global definitions. These definitions are called \emph{null model} definitions. These definitions rely on taking the original network and generating a random version of it that has some similarity in it's structural features to the original. These two networks are then compared in some way which will reveal any underlying community structure. In fact, these null model methods underpin the idea of modularity; a concept which underpins the most popular method of network clustering.
+
+\subsection{Quality Functions and Basic Modularity}
+It's all well and good talking about which methods exist, but ultimately we're interested in the efficacy of a given method. Anyone can define an algorithm that breaks a network down into communities (for example by putting each node into it's own community), but some of these might not provide us with high quality insight to the structure of a network. Hence we develop the idea of \emph{quality functions}. A community detection algorihm takes a network $N$ and returns a set of partitions and/or clusters in that network based on a set of rules. A quality function determines the quality of an algorithm by assigning a number to each partition of a network. Typically, partitions with a high score are considered ``good". According to Fortunato, the most used quality function is Nerman and Girvan's definition of modularity\cite[8]{newman_girvan}:
+
+$$ Q = \sum_i (e_{ii} - a_i^2) = \text{Tr}(e) - ||e^2|| $$
+
+This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fraction of edges in the network that link a node in community $i$ to a node in community $j$, $a_i = \sum_j e_{ij}$ the fraction of edges that connect to vertices in community $i$, and finally $||X||$ denotes the sum of all elements of the matrix $X$. Based on this definition, if our algorithm has partitioned the network successfully into communities then we expect $Q$ to be large. Even though $\text{Tr}(e)$ is large when the communities are very well connected, it achieves a maximum of $\text{Tr}(e) = 1$ when all the nodes are in the same community. This is clearly not useful as it doesn't give us any information about the structure of the network. Thus we subtract $||e^2||$ from $\text{Tr}(e)$ to get our definition.
+%
+% \subsection{Modularity}
+
+% Note to later self: I'm kind of interested in references 77 and 78 from Fortunato's writeup. Also just generally I need to give the whole "Local definitions" thing a proper read as I'm sure there's some interesting stuff to go into there.
 
 % In more detail, local definitions can vary a lot but the efficacy can also vary significantly. For example: cliques. Are cliques communities? Yes!
-
-% \todo[backgroundcolor=red]{SEC: Traditional Methods of Community Detection}
-%
-% \todo[backgroundcolor=red]{SEC: Spectral Methods of Community Detection}
 
 \todo[backgroundcolor=red]{SEC: Methods of Community Detection}
 

@@ -134,8 +134,6 @@ where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results
 Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter}.
 
 \subsection{Components}
-Components are a very important concept when we're considering community detection as communities are, in some sense, almost clusters
-
 Components are a natural consequence of the notion of paths. Simply put, components are sets of vertices in the graph that are all connected to each other via paths.
 
 \begin{definition}{(Component)}
@@ -143,6 +141,8 @@ Components are a natural consequence of the notion of paths. Simply put, compone
 \end{definition}
 
 Components are an important concept in the study of community detection. Recall the intuition for a community introduced in section \ref{sec:Introduction to Networks}. From here, it is clear to see a similarity between the notion of a community and that of a component. Loosely put, a community is a subset of a network that is \emph{nearly} a component.
+
+\todo{This section probably need replacing with one on \emph{partitioning} and \emph{clustering}}
 
 \subsection{Cut Sets}
 Cut sets, as the name would suggest are sets of vertices that cut the network into multiple components. 
