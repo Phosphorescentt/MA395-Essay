@@ -203,12 +203,14 @@ According to Renaud Lambiotte, these degree distributions often have very long t
 
 $$ p(k) \propto k^{-\gamma} $$
 
-where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some "cutoff degre" where the structure changes and $p(d)$ quickly decreases to $0$. Curiously, this leads us to a formalisation of the friendship paradox wherein the average number of friends of any given node is less than the average degree of nodes adjacent to any given node. \todo{in this section I'm finding it really hard not to just copy from Renaud's notes.}
+where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some "cutoff degre" where the structure changes and $p(d)$ quickly decreases to $0$. Curiously, this leads us to a formalisation of the friendship paradox wherein the average number of friends of any given node is less than the average degree of nodes adjacent to any given node.
 
-\subsection{Measures Derived from Walks and Paths}
-I think I'll probably leave this one out. It's not very interesting.
+% \todo{in this section I'm finding it really hard not to just copy from Renaud's notes.}
 
-\subsection{Clustering coefficient}
+% \subsection{Measures Derived from Walks and Paths}
+% I think I'll probably leave this one out. It's not very interesting.
+
+\subsection{Clustering Coefficient}
 When thinking about community detection, we're actually interested in the connectedness of different parts of the network and in particular we're interested in the interconnectedness of a set of vertices. One way to measure the interconnectedness of a vertex with the surrounding nodes is using the clustering coefficient. The clustering coefficient counts the number of triangles in the network that include a given vertex. We define the clustering coefficient in the following way
 
 $$ C_i = \frac{\text{number of triangles including the }i\text{th node}}{k_i(k_i-1)/2} $$
@@ -242,7 +244,8 @@ The Katz measure of centrality considers all walks between two nodes $i$ and $j$
 $$ \text{Katz}_i = \sum_{i=1}^N[(I - \alpha A)^{-1}]_{ij} $$
 
 \subsubsection{PageRank}
-PageRank is a centrality measure developed with the advent of the internet in an attempt to improve search engine indexing.\todo{CITATION NEEDED} The actual algorithm for calculating the PageRank of a node is too intricate to go into detail in this essay, but the technical definition is the "stationary density of a discrete-time random walk."\cite[19]{oxford:renaud_notes}
+PageRank is a centrality measure developed with the advent of the internet in an attempt to improve search engine indexing.\cite{pagerank} The actual algorithm for PageRank is too intricate to go into here, but the intuition fir it is that ``highly linked pages are more important than pages with few links"\cite[3]{pagerank}
+
 
 \subsection{Spectral Properties}
 The final properties of interest are spectral in nature. Spectral properties are properties that are based on the eigendecomposition of either the adjacency matrix, the Laplacian or a modified version of the Laplacian called the normalised Laplacian. If the Laplacian is defined by

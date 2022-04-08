@@ -1,7 +1,7 @@
-\todo[backgroundcolor=orange]{SEC: Introduction to Community Detection}
+\todo[backgroundcolor=yellow]{SEC: Introduction to Community Detection}
 As allured to in the previous chapters, detecting communities is of great interest and as such there a number of ways to do it. The process of community detection involves analysing the network and finding groups of nodes in the network that are more densely connected amongst themselves than they are to the rest of the network. This notion forms the basis for most community detection methods and algorithms. However, it turns out that it's difficult to come up with a good definition of a community. In fact, it turns out that ``In most cases, communities are algorithmically defined, i.e. they are just the final product of the algorithm without a precise \emph{a priori} definition."\cite[84]{fortunato} In this section, we will discuss the notions of ``community" that underpin a number of interesting methods in community detection before going into detail about the algorithms themselves.
 
-\todo[backgroundcolor=orange]{SEC: Background for Community Detection}
+\todo[backgroundcolor=yellow]{SEC: Background for Community Detection}
 A simple example of the aforementioned notion comes in the form of inter and intra-cluster densities as discussed by Fortunato.\cite[84]{fortunato}. This idea assumes that we have a network $N$ and a subnetwork $C \subseteq N$ i.e. $C$ is also a network where every node and edge in $C$ is also in $N$, but the converse is not necessarily true. Suppose we want to determine whether $C$ is a community inside $N$. To aid us in our investigation, we can define the following two quantities,
 
 \begin{enumerate}
@@ -52,10 +52,10 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 
 % In more detail, local definitions can vary a lot but the efficacy can also vary significantly. For example: cliques. Are cliques communities? Yes!
 
-\todo[backgroundcolor=red]{SEC: Methods of Community Detection}
+\todo[backgroundcolor=yellow]{SEC: Methods of Community Detection}
 
 \subsection{Community Detection via Smallest Cut}
-The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Renaud's notes, we will define a few pieces of machinery that will allow us to algorithmically/analytically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
+The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Renaud's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
 
 $$ R = \frac{1}{2} \sum_{\substack{i, j \; \text{in} \\ \text{different} \\ \text{groups}}} A_{ij}. $$
 
@@ -83,14 +83,37 @@ $$
 \begin{aligned}
     R =& \frac{1}{4}\sum_{ij}(1 - s_i s_j)A_{ij} \\
       =& \qquad \vdots \\
-      =& \frac{1}{4}\sum_{ij}s_i s_j(k_i\delta_{ij} - A_{ij}) \\
+      =& \frac{1}{4}\sum_{ij}s_i s_j(k_i\delta_{ij} - A_{ij}), \\
 \end{aligned}
 $$
 
-\subsection{Louvian Community Detection}
+which is then equal to the following,
 
-\subsection{Surprise Community Detection}
+$$ R = \frac{1}{4}s^TLs, $$
 
-\subsection{Leiden Community Detection}
+where $L$ is the Laplacian matrix of the network. So now finding the minimum cut is equivalent to finding the vector $s$ that minimises the above quantity. The trick is to rewrite $s$ using a linear combination of the normalised eigenvectors, $v_i$ of $L$. This means that $s$ takes the form $\sum_{i=1}^n a_iv_i$ where we set $a_i = v_i^T s$. It should also be simple to see that $s^Ts = n$. Combining this redefinition of $s$ and the $a_i$s, we can note that
 
-\subsection{Walktrap Community Detection}
+$$ \sum_{i=1}^n a_i^2 = n. $$
+
+Letting $\lambda_i$ be the eigenvalue of $L$ correspnding to $v_i$, we get the following
+
+$$ R = \sum_i a_iv_i^TL\sum_ja_jv_j = \sum_{ij}a_ia_j\lambda_j\delta{ij} = \sum{i}\lambda_i. $$
+
+Convention dictates that we label the eigenvalues in increasing order, i.e. $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n$. In order to minimise the value of $R$, we wish to chose an $s$ that places as much weight on the smaller eigenvalues as possible. With this in mind, the easiest way to minimise $R$ is to choose $s = (1, 1, \dots) = v_i$ the eigenvector corresponding to $\lambda_i = \lambda_1 = 0$. This, however, is not an interesting solution as all it does is put every node into group 1 and none into group 2. To fix this, we just prohibit this solution and find the next best one. The next best solution places as much weight as possible on the second eigenvalue $\lambda_2$ of the Laplacian. To do this, we select an $s$ that is proportional to the second eigenvector, $v_2$. This eigenvector is commonly referred to the \emph{Fiedler vector}. However, due to the constraint that every $s_i = \pm 1$ we can rarely chose an $s$ that is exactly proportional to $v_2$. Renaud goes into more detail, but in this case it is often sufficient to chose $s$ as close to $v_2$ as possible. After some more algebra and manipulation, it transpires that the optimal choice for any $s_i$ under this paradigm is 
+
+$$ s_i = \begin{cases}
+    +1 & \text{if} \; v_i^{(2)} \geq 0, \\
+    -1 & \text{if} \; v_i^{(2)} < 0,
+\end{cases} $$
+
+where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Renaud covers in good detail.\cite[27]{oxford:renaud_notes}
+
+This method is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N >> 2$ groups.
+
+% \subsection{Louvian Community Detection}
+%
+% \subsection{Surprise Community Detection}
+%
+% \subsection{Leiden Community Detection}
+%
+% \subsection{Walktrap Community Detection}
