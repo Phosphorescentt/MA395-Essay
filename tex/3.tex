@@ -55,6 +55,37 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 \todo[backgroundcolor=red]{SEC: Methods of Community Detection}
 
 \subsection{Community Detection via Smallest Cut}
+The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Renaud's notes, we will define a few pieces of machinery that will allow us to algorithmically/analytically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
+
+$$ R = \frac{1}{2} \sum_{\substack{i, j \; \text{in} \\ \text{different} \\ \text{groups}}} A_{ij}. $$
+
+Of course, this isn't very easy to work with, so we define a vector $s$ such that
+
+$$ s_i = 
+\begin{cases}
+    +1 & \text{if vertex} \; i \; \text{belongs to group 1}, \\
+    -1 & \text{if vertex} \; i \; \text{belongs to group 2}. \\
+\end{cases}
+$$
+
+After noting the following
+
+$$ \frac{1}{2}(1 - s_i s_j) = 
+\begin{cases}
+    1 & \text{if} \; i \; \text{and} \; j \; \text{are in different groups}, \\
+    0 & \text{if} \; i \; \text{and} \; j \; \text{are in the same group}, \\
+\end{cases}
+$$
+
+we can rewrite $R$ as
+
+$$
+\begin{aligned}
+    R =& \frac{1}{4}\sum_{ij}(1 - s_i s_j)A_{ij} \\
+      =& \qquad \vdots \\
+      =& \frac{1}{4}\sum_{ij}s_i s_j(k_i\delta_{ij} - A_{ij}) \\
+\end{aligned}
+$$
 
 \subsection{Louvian Community Detection}
 
