@@ -44,8 +44,8 @@ It's all well and good talking about which methods exist, but ultimately we're i
 
 $$ Q = \sum_i (e_{ii} - a_i^2) = \text{Tr}(e) - ||e^2|| $$
 
-This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fraction of edges in the network that link a node in community $i$ to a node in community $j$, $a_i = \sum_j e_{ij}$ the fraction of edges that connect to vertices in community $i$, and finally $||X||$ denotes the sum of all elements of the matrix $X$. Based on this definition, if our algorithm has partitioned the network successfully into communities then we expect $Q$ to be large. Even though $\text{Tr}(e)$ is large when the communities are very well connected, it achieves a maximum of $\text{Tr}(e) = 1$ when all the nodes are in the same community. This is clearly not useful as it doesn't give us any information about the structure of the network. Thus we subtract $||e^2||$ from $\text{Tr}(e)$ to get our definition.
-%
+This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fraction of edges in the network that link a node in community $i$ to a node in community $j$, $a_i = \sum_j e_{ij}$ the fraction of edges that connect to vertices in community $i$, and finally $||X||$ denotes the sum of all elements of the matrix $X$. Based on this definition, if our algorithm has partitioned the network successfully into communities then we expect $Q$ to be large. Even though $\text{Tr}(e)$ is large when the communities are very well connected, it achieves a maximum of $\text{Tr}(e) = 1$ when all the nodes are in the same community. This is clearly not useful as it doesn't give us any information about the structure of the networks. Thus we subtract $||e^2||$ from $\text{Tr}(e)$. To quote Newman and Girvan: ``this quantity measures the fraction of edges in the network that connect vertices of the same type minus the expecte value of the same quantity in a network with the same community divisions but with random connections between them". The idea for this definition is to use a \emph{null model} and exploit the fact that random networks are not expected to have any community strucutre.
+
 % \subsection{Modularity}
 
 % Note to later self: I'm kind of interested in references 77 and 78 from Fortunato's writeup. Also just generally I need to give the whole "Local definitions" thing a proper read as I'm sure there's some interesting stuff to go into there.
@@ -53,6 +53,8 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 % In more detail, local definitions can vary a lot but the efficacy can also vary significantly. For example: cliques. Are cliques communities? Yes!
 
 \todo[backgroundcolor=red]{SEC: Methods of Community Detection}
+
+\subsection{Community Detection via Smallest Cut}
 
 \subsection{Louvian Community Detection}
 
