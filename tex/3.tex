@@ -54,7 +54,7 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 
 \todo[backgroundcolor=yellow]{SEC: Methods of Community Detection}
 
-\subsection{Community Detection via Smallest Cut}
+\subsection{Community Detection via Smallest Cut}\label{sec:smallest_cut}
 The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Renaud's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
 
 $$ R = \frac{1}{2} \sum_{\substack{i, j \; \text{in} \\ \text{different} \\ \text{groups}}} A_{ij}. $$
