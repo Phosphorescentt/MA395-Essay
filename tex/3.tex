@@ -1,5 +1,5 @@
 \todo[backgroundcolor=yellow]{SEC: Introduction to Community Detection}
-As allured to in the previous chapters, detecting communities is of great interest and as such there a number of ways to do it. The process of community detection involves analysing the network and finding groups of nodes in the network that are more densely connected amongst themselves than they are to the rest of the network. This notion forms the basis for most community detection methods and algorithms. However, it turns out that it's difficult to come up with a good definition of a community. In fact, it turns out that ``In most cases, communities are algorithmically defined, i.e. they are just the final product of the algorithm without a precise \emph{a priori} definition."\cite[84]{fortunato} In this section, we will discuss the notions of ``community" that underpin a number of interesting methods in community detection before going into detail about the algorithms themselves.
+As alluded to in the previous sections, detecting communities is of great interest and as such there a number of ways to do it. The process of community detection involves analysing the network and finding groups of nodes in the network that are more densely connected amongst themselves than they are to the rest of the network. This notion forms the basis for most community detection methods and algorithms. However, a robust definition of community is difficult to formulate. In fact, it turns out that ``In most cases, communities are algorithmically defined, i.e. they are just the final product of the algorithm without a precise \emph{a priori} definition."\cite[84]{fortunato} In this section, we will discuss the notions of ``community" that underpin a number of interesting methods in community detection before going into detail about the algorithms themselves.
 
 \todo[backgroundcolor=yellow]{SEC: Background for Community Detection}
 A simple example of the aforementioned notion comes in the form of inter and intra-cluster densities as discussed by Fortunato.\cite[84]{fortunato}. This idea assumes that we have a network $N$ and a subnetwork $C \subseteq N$ i.e. $C$ is also a network where every node and edge in $C$ is also in $N$, but the converse is not necessarily true. Suppose we want to determine whether $C$ is a community inside $N$. To aid us in our investigation, we can define the following two quantities,
@@ -13,31 +13,39 @@ where $n_c = |C|$ and internal and external edges refer to edges originating in 
 
 $$ \delta(N) = \frac{\text{\# of edges in}\; N}{n(n-1)/2}. $$
 
-Following the same intuition as before, this quantity represents the ratio of edges that are actually present in the network agains the total number of possible edges. Now, if $C$ were a community, we would expect that $\delta_{\text{int}}(C)$ is noticably larger than $\delta(N)$. Similarly, we would expect $\delta_{\text{ext}}(C)$ to be noticably smaller than $\delta(N)$. Getting this result is the goal of most community detection algorithms.
+Following the same intuition as before, this quantity represents the ratio of edges that are actually present in the network agains the total number of possible edges. Now, if $C$ were a community, we would expect that $\delta_{\text{int}}(C)$ is noticeably larger than $\delta(N)$. Similarly, we would expect $\delta_{\text{ext}}(C)$ to be noticeably smaller than $\delta(N)$. Getting this result is the goal of most community detection algorithms.
 
-Stricter definitions of communities come in three flavours: local definitions, global definitions and definitions based on vertex similarity. To summarise: local definitions rely on considering the structure of a given subnetwork and perhaps it's immediately adjacent neighbours; global definitions consider the structure of the whole network; and degree similarity relies on some notion of similarity between any two vertices. Each method seeks to formalise our intuition that communities should be strongly connected amongst themselves, but weakly connected to the rest of the network. To extend this intuition, we will refer to Wasserman's summary of the four general properties of what he calls ``cohesive subgroups" (but we call communities) that have influenced the formalisations and definitions of the concept in the social network literature.\cite[251-252]{wasserman_faust_1994} The following are reprinted verbatim:
-
-\begin{enumerate}
-    \item The mutuality of ties
-    \item The closeness or reachability of subgroup members
-    \item The frequency of ties amongst members
-    \item The relative frequency of ties amongst subgroup members compared to non-subgroup members
-\end{enumerate}
-
-The four points above are written in the parlance of the Social Network Analysis literature. As such, we will reprint them using terms more in line with our context:
+Stricter definitions of communities come in three flavours: local definitions, global definitions and definitions based on vertex similarity: 
 
 \begin{enumerate}
-    \item Cliques
-    \item Closeness or reachability of community members
-    \item Frequency of connections between community members
-    \item Relative frequency of connections amongst community members compared to non-community members.
+    \item Local definitions rely on considering the structure of a given subnetwork and perhaps it's immediately adjacent neighbours,
+    \item Global definitions consider the structure of the whole network,
+    \item Vertex similarity relies on the notion of similarity between any two vertices.
 \end{enumerate}
+
+Each method seeks to formalise our intuition that communities should be strongly connected amongst themselves, but weakly connected to the rest of the network. To extend this intuition, we will refer to Wasserman's summary of the four general properties of what he calls ``cohesive subgroups" (but we call communities) that have influenced the formalisations and definitions of the concept in the social network literature.\cite[251-252]{wasserman_faust_1994}
+
+\begin{enumerate}
+    \item The mutuality of ties (cliques);
+    \item The closeness or reachability of subgroup (community) members;
+    \item The frequency of ties amongst members (frequency of connections between community members);
+    \item The relative frequency of ties amongst subgroup (community) members compared to non-subgroup (non-community) members.
+\end{enumerate}
+
+% The four points above are written in the parlance of the Social Network Analysis literature. As such, we will reprint them using terms more in line with our context:
+%
+% \begin{enumerate}
+%     \item Cliques
+%     \item Closeness or reachability of community members
+%     \item Frequency of connections between community members
+%     \item Relative frequency of connections amongst community members compared to non-community members.
+% \end{enumerate}
 
 Each of these points refers to a different strategy for identifying communities. Paraphrasing Wasserman and using our terminology: Strategies based on cliques require each member of a community to be directly adjacent to each other member of a community; strategies based on closeness or reachability require that each member of a community is reachable from every other member of the same community, but adjacency is not required; strategies based on frequency of connetions between community members require that each member of the community is adjacent to many other members of the community; and strategies based on the relative frequency of connections require that members of the community are more connected amongst each other than they are to the rest of the network.
 
-These four ideas for definitions are such that the communities they generate are considered maximal subnetworks i.e. adding another node to the subnetwork would remove the subnetwork's community propery. The ideas are also ordered (roughly) in decreasing strictness and Fortunato provides an excellent summary of the journey from a rudimentary strategy using cliques to strategies involving fitness measures in the case of local definitions.\cite[3.2.2]{fortunato}\todo{Can I cite sections like this?}
+These four ideas for definitions are such that the communities they generate are considered maximal subnetworks i.e. adding another node to the subnetwork would remove the subnetwork's community propery. The ideas are also ordered (roughly) in decreasing strictness and Fortunato provides an excellent summary of the journey from a rudimentary strategy using cliques to strategies involving fitness measures in the case of local definitions.\cite[88-90]{fortunato}\todo{Can I cite sections like this?}
 
-Global definitions, of course, follow the same notion, but they have a different motivation. Whilst local definitions are used when we're interested in just the structure of the subnetwork, global definitions are used when the community structure doesn't make sense without the context of the rest of the network and vice versa. Global definitions are more often indirect definitions in the sense that the communities are defined by the output of an algorithm implementing a global method. Curiously though, there are a set of direct global definitions. These definitions are called \emph{null model} definitions. These definitions rely on taking the original network and generating a random version of it that has some similarity in it's structural features to the original. These two networks are then compared in some way which will reveal any underlying community structure. In fact, these null model methods underpin the idea of modularity; a concept which underpins the most popular method of network clustering.
+Global definitions, of course, follow the same notion, but they have a different motivation. Whilst local definitions are used when we're interested in just the structure of the subnetwork, global definitions are used when the community structure doesn't make sense without the context of the rest of the network and vice versa. Global definitions are more often indirect definitions in the sense that the communities are defined by the output of an algorithm implementing a global method. Curiously though, there are a set of direct global definitions. These definitions are called \emph{null model} definitions. These definitions rely on taking the original network and generating a random version of it that has some similarity in it's structural features to the original. These two networks are then compared in some way which will reveal any underlying community structure. In fact, these null model methods underpin the idea of modularity; a concept which is relied upon by the most popular method of network clustering.
 
 \subsection{Quality Functions and Basic Modularity}
 It's all well and good talking about which methods exist, but ultimately we're interested in the efficacy of a given method. Anyone can define an algorithm that breaks a network down into communities (for example by putting each node into it's own community), but some of these might not provide us with high quality insight to the structure of a network. Hence we develop the idea of \emph{quality functions}. A community detection algorihm takes a network $N$ and returns a set of partitions and/or clusters in that network based on a set of rules. A quality function determines the quality of an algorithm by assigning a number to each partition of a network. Typically, partitions with a high score are considered ``good". According to Fortunato, the most used quality function is Nerman and Girvan's definition of modularity\cite[8]{newman_girvan}:
@@ -55,7 +63,7 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 \todo[backgroundcolor=yellow]{SEC: Methods of Community Detection}
 
 \subsection{Community Detection via Smallest Cut}\label{sec:smallest_cut}
-The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Renaud's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
+The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Lambiotte's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities.\cite[26-27]{oxford:renaud_notes} For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
 
 $$ R = \frac{1}{2} \sum_{\substack{i, j \; \text{in} \\ \text{different} \\ \text{groups}}} A_{ij}. $$
 
@@ -99,16 +107,16 @@ Letting $\lambda_i$ be the eigenvalue of $L$ correspnding to $v_i$, we get the f
 
 $$ R = \sum_i a_iv_i^TL\sum_ja_jv_j = \sum_{ij}a_ia_j\lambda_j\delta{ij} = \sum{i}\lambda_i. $$
 
-Convention dictates that we label the eigenvalues in increasing order, i.e. $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n$. In order to minimise the value of $R$, we wish to chose an $s$ that places as much weight on the smaller eigenvalues as possible. With this in mind, the easiest way to minimise $R$ is to choose $s = (1, 1, \dots) = v_i$ the eigenvector corresponding to $\lambda_i = \lambda_1 = 0$. This, however, is not an interesting solution as all it does is put every node into group 1 and none into group 2. To fix this, we just prohibit this solution and find the next best one. The next best solution places as much weight as possible on the second eigenvalue $\lambda_2$ of the Laplacian. To do this, we select an $s$ that is proportional to the second eigenvector, $v_2$. This eigenvector is commonly referred to the \emph{Fiedler vector}. However, due to the constraint that every $s_i = \pm 1$ we can rarely chose an $s$ that is exactly proportional to $v_2$. Renaud goes into more detail, but in this case it is often sufficient to chose $s$ as close to $v_2$ as possible. After some more algebra and manipulation, it transpires that the optimal choice for any $s_i$ under this paradigm is 
+Convention dictates that we label the eigenvalues in increasing order, i.e. $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n$. In order to minimise the value of $R$, we wish to chose an $s$ that places as much weight on the smaller eigenvalues as possible. With this in mind, the easiest way to minimise $R$ is to choose $s = (1, 1, \dots) = v_i$ the eigenvector corresponding to $\lambda_i = \lambda_1 = 0$. This, however, is not an interesting solution as all it does is put every node into group 1 and none into group 2. To fix this, we just prohibit this solution and find the next best one. The next best solution places as much weight as possible on the second eigenvalue $\lambda_2$ of the Laplacian. To do this, we select an $s$ that is proportional to the second eigenvector, $v_2$. This eigenvector is commonly referred to the \emph{Fiedler vector}. However, due to the constraint that every $s_i = \pm 1$ we can rarely chose an $s$ that is exactly proportional to $v_2$. Lambiotte provides a more comprehensive discussion of this argument, but in this case it is often sufficient to chose $s$ as close to $v_2$ as possible. After some more algebra and manipulation, it transpires that the optimal choice for any $s_i$ under this paradigm is 
 
 $$ s_i = \begin{cases}
     +1 & \text{if} \; v_i^{(2)} \geq 0, \\
     -1 & \text{if} \; v_i^{(2)} < 0,
 \end{cases} $$
 
-where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Renaud covers in good detail.\cite[27]{oxford:renaud_notes}
+where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Lambiotte covers in good detail.\cite[27]{oxford:renaud_notes}
 
-This method is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N >> 2$ groups.
+This is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N \ll 2$ groups.
 
 % \subsection{Louvian Community Detection}
 %
