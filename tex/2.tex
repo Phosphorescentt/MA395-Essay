@@ -172,7 +172,7 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
 \end{figure}
 
 
-\subsection{Degree Distribution}
+\subsection{Degree Distribution}\label{sec:Degree Distribution}
 We already know that the degree of a node is the number of edges incident on that node. In the context of adjacency matrices, the degree of node $i$ is defined by 
 
 $$
@@ -201,14 +201,9 @@ There also exist similar definitions for both weighted and directed networks. Us
 
 According to Renaud Lambiotte, these degree distributions often have very long tails which are regularly described by a power law. i.e.
 
-$$ p(k) \propto k^{-\gamma} $$
+$$ p(k) \propto k^{-\gamma}, $$
 
-where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some "cutoff degre" where the structure changes and $p(d)$ quickly decreases to $0$. Curiously, this leads us to a formalisation of the friendship paradox wherein the average number of friends of any given node is less than the average degree of nodes adjacent to any given node.
-
-% \todo{in this section I'm finding it really hard not to just copy from Renaud's notes.}
-
-% \subsection{Measures Derived from Walks and Paths}
-% I think I'll probably leave this one out. It's not very interesting.
+where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(d)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet\cite{PhysRevE.65.066130}, world wide web\cite{BARABASI200069}, metabolic networks\cite{Jeong2000} and citation networks\cite{Redner1998} all appear to be scale-free.
 
 \subsection{Clustering Coefficient}
 When thinking about community detection, we're actually interested in the connectedness of different parts of the network and in particular we're interested in the interconnectedness of a set of vertices. One way to measure the interconnectedness of a vertex with the surrounding nodes is using the clustering coefficient. The clustering coefficient counts the number of triangles in the network that include a given vertex. We define the clustering coefficient in the following way

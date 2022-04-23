@@ -47,8 +47,8 @@ These four ideas for definitions are such that the communities they generate are
 
 Global definitions, of course, follow the same notion, but they have a different motivation. Whilst local definitions are used when we're interested in just the structure of the subnetwork, global definitions are used when the community structure doesn't make sense without the context of the rest of the network and vice versa. Global definitions are more often indirect definitions in the sense that the communities are defined by the output of an algorithm implementing a global method. Curiously though, there are a set of direct global definitions. These definitions are called \emph{null model} definitions. These definitions rely on taking the original network and generating a random version of it that has some similarity in it's structural features to the original. These two networks are then compared in some way which will reveal any underlying community structure. In fact, these null model methods underpin the idea of modularity; a concept which is relied upon by the most popular method of network clustering.
 
-\subsection{Quality Functions and Basic Modularity}
-It's all well and good talking about which methods exist, but ultimately we're interested in the efficacy of a given method. Anyone can define an algorithm that breaks a network down into communities (for example by putting each node into it's own community), but some of these might not provide us with high quality insight to the structure of a network. Hence we develop the idea of \emph{quality functions}. A community detection algorihm takes a network $N$ and returns a set of partitions and/or clusters in that network based on a set of rules. A quality function determines the quality of an algorithm by assigning a number to each partition of a network. Typically, partitions with a high score are considered ``good". According to Fortunato, the most used quality function is Nerman and Girvan's definition of modularity\cite[8]{newman_girvan}:
+\subsection{Quality Functions and Basic Modularity}\label{sec:qfs and modularity}
+It's all well and good talking about which methods exist, but ultimately we're interested in the efficacy of a given method. Anyone can define an algorithm that breaks a network down into communities (for example by putting each node into it's own community), but some of these might not provide us with high quality insight to the structure of a network. Hence we develop the idea of \emph{quality functions}. A community detection algorihm takes a network $N$ and returns a set of partitions and/or clusters in that network based on a set of rules. A quality function determines the quality of an algorithm by assigning a number to each partition of a network. Typically, partitions with a high score are considered ``good". According to Fortunato, the most used quality function is Newman and Girvan's definition of modularity\cite[8]{newman_girvan}:
 
 $$ Q = \sum_i (e_{ii} - a_i^2) = \text{Tr}(e) - ||e^2|| $$
 
@@ -114,14 +114,4 @@ $$ s_i = \begin{cases}
     -1 & \text{if} \; v_i^{(2)} < 0,
 \end{cases} $$
 
-where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Lambiotte covers in good detail.\cite[27]{oxford:renaud_notes}
-
-This is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N \ll 2$ groups.
-
-% \subsection{Louvian Community Detection}
-%
-% \subsection{Surprise Community Detection}
-%
-% \subsection{Leiden Community Detection}
-%
-% \subsection{Walktrap Community Detection}
+where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Lambiotte covers in good detail.\cite[27]{oxford:renaud_notes} This is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N \ll 2$ groups.
