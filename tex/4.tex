@@ -48,4 +48,4 @@ When the above is repeated for enough iterations, we get at SFcN with $N$ nodes 
 
 $$ Q = \frac{m}{m + \alpha n} - \frac{1}{M}\left(\frac{m + 2\alpha n}{m + \alpha n}\right)^2 $$
 
-Thus, the authors fix the values of $m$ and $n$ and adjust the values of $\alpha$ to get networks with various strengths of community structure.
+Thus, the authors fix the values of $m$ and $n$ and adjust the values of $\alpha$ to get networks with various strengths of community structure. Of course, for a fair test, the authors need a SFN with precisely the same degree distribution as the SFcN. Thus they perform a series of \emph{monte caro vertex switching} steps on the SFcN to generate such a SFN. A single switching step involves taking a pair of links $\{A, B\}$ and $\{C, D\}$ and switching the ends to get $\{A, D\}$ and $\{C, B\}$. This switch is only performed if it doesn't form any multiple or self links. To ensure that there's enough mixing, the authors switch a total of $5M$ pairs of links.
