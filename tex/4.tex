@@ -1,6 +1,6 @@
 In this section, we explore some applications of community detection. We will start with the simple example of Zachary's Karate Club and build up to more complicated examples.
 
-\subsection{Zachary's Karate Club}
+\subsection{Zachary's Karate Club}\label{sec:zachary_section}
 To add more to the context already introduced in Section \ref{sec:Social Networks}, the karate club that Zachary studied had two main leaders who are referred to in the paper as ``Mr Hi" and ``John A". Due to some inter-personal politics, members of the club ended up becoming part of a faction that was politically aligned with one of the primary leaders. After a period of in-fighting, the club split into two distinct groups. Zachary collected all the data relating to this including information on how often any two members of the group interacted, which leader they were factionally affiliated with and which group each member was a part of post-fission. Using this data, Zachary built a model that knew how much any two particular members interacted, but had no knowledge of their factional affiliations. After developing this model, Zachary was interested in the following two hypotheses:
 
 \begin{enumerate}
@@ -27,7 +27,7 @@ After running the Ford-Fulkerson algorithm on the data, Zachary achieved results
 
 This is a prime example of the predictive power of community detection --- knowing nothing about the inter-group politics, Zachary was able to \emph{very} accurately predict the way the club interacted and split after a dispute.
 
-\subsection{Epidemic Spreading and Community Structure}
+\subsection{Epidemic Spreading and Community Structure}\label{sec:epidemics}
 From experience, we understand that community structure might make a difference to the spreading of a virus or disease through a population.\footnote{This wouldn't be an essay written in the 2020s without mentioning epidemic processes}. Until recently, the idea of analysing the difference in epidemic propagation between networks with and without communities remained nearly untouched. A paper by Huang and Li published in 2007\cite{Huang_2007} investigated the difference between epidemic spreading in scale-free networks with and without community structure. Recall from Section \ref{sec:Degree Distribution} that scale free networks have a degree distribution that rougly follows a power law. Further recall that scale-free networks are interesting because they represent a plethora of real world complex systems.
 
 Huang and Li's method involves creating a number of realisations of scale-free networks (SFNs) and scale-free networks with communities (SFcNs) and performing Monte Carlo simulations for each realisation using a Susceptible-Infected (or SI) model. This model works by labelling each member of the network either susceptible, where the member can be infected by the disease, or infected, where the member currently has the disease and can infect others. The probability with which any infected member does this is parameterised by the authors using $\lambda$.
@@ -68,4 +68,4 @@ Thus, the authors fix the values of $m$ and $n$ and adjust the values of $\alpha
     \label{fig:si}
 \end{figure}
 
-Observing the graphs we can see that SFNs behave differently to SFcNs. Most interestingly we can see that the proportion of infected individuals is \emph{lower} for SFcNs than it is for SFNs at any time $t$ and that the variability of the proportion of infected individuals peaks lower. This is significant because it informs our intuition that separating parts of the network results in slower transmission and lower infection proportions. Results like this are important because they have implications about how we adapt and inform our legislation when we're faced with real world problems.
+Observing the graphs we can see that SFNs behave differently to SFcNs. Most interestingly we can see that the proportion of infected individuals is \emph{lower} for SFcNs than it is for SFNs at any time $t$ and that the variability of the proportion of infected individuals peaks lower. This is significant because it informs our intuition that separating parts of the network results in slower transmission and lower infection proportions. Results like this are important because they have implications about how we adapt and inform our actions when we're faced with real world problems.
