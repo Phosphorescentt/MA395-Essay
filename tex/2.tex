@@ -130,7 +130,7 @@ where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results
 
 Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter} and they typically give us a much better understanding of the structure of a network than regular paths do. Generally speaking, when the word ``path" is written in this essay, it refers to a geodesic path for simplicity.
 
-\subsection{Components, Partitioning and Clustering}
+\subsection{Components}
 Components are a natural consequence of the notion of paths. Simply put, components are sets of vertices in the graph that are all connected to each other via paths.
 
 \begin{definition}{(Component)}
@@ -138,8 +138,6 @@ Components are a natural consequence of the notion of paths. Simply put, compone
 \end{definition}
 
 Components are an important concept in the study of community detection. Recall the intuition for a community introduced in section \ref{sec:Introduction to Networks}. From here, it is clear to see a similarity between the notion of a community and that of a component. Loosely put, a community is a subset of a network that is \emph{nearly} a component.
-
-\todo{This section probably need replacing with one on \emph{partitioning} and \emph{clustering}}
 
 \subsection{Cut Sets}
 Cut sets, as the name would suggest are sets of vertices that cut the network into multiple components. 
@@ -167,8 +165,7 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
     \label{fig:connectivity_strengths}
 \end{figure}
 
-\subsection{Partitioning and Clustering}
-We further introduce the ideas of \emph{partitioning} and \emph{clustering}. Clustering is a typical problem in computer science where one is presented with a graph and one wishes to break the graph into $N$ components using an appropriate cut set. The appropriate cut set is usually desired to be minimal. Partitioning and clustering is actually the formalisation of what we're trying to do with community detection where we take a network and figure out where the almost-components are.
+To make a link to computer science, we further introduce the ideas of \emph{partitioning} and \emph{clustering}. Clustering is a typical problem in computer science where one is presented with a graph and one wishes to break the graph into $N$ components using an appropriate cut set. The appropriate cut set is usually desired to be minimal. Partitioning and clustering is the formalisation of community detection where we take a network and figure out where the almost-components are via finding a smallest cut. This is discussed in more detail in Section \ref{sec:smallest_cut}.
 
 \subsection{Degree Distribution}\label{sec:Degree Distribution}
 We already know that the degree of a node is the number of edges incident on that node. In the context of adjacency matrices, the degree of node $i$ is defined by 
