@@ -1,4 +1,3 @@
-\todo[backgroundcolor=yellow]{SEC: Definition of a Network}
 Community detection relies on us knowing lots about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later.
 
 \begin{definition}{(Undirected network)}
@@ -6,8 +5,6 @@ Community detection relies on us knowing lots about the underlying structure of 
 \end{definition}
 
 The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
-
-\todo[backgroundcolor=yellow]{SEC: Different Types of Network}
 
 \begin{definition}{(Directed network)}
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$.\cite[1]{oxford:renaud_notes}\label{def:directed_network}
@@ -19,12 +16,9 @@ The intuition for directed graphs, is that edges may only be travelled along in 
     Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.\cite[1]{oxford:renaud_notes}\label{def:weighted_network}
 \end{definition}
 
-The weighted network allows us to introduce some notion of how hard it is to move along a certain edge. This is useful when modeling things like traffic flow. [citation needed]
+% The above definitions of the different types of network are likely more technical than we will ever need because once we have introduced the notion of of an adjacency matrix, that becomes our go to representation of a network.
 
-The above definitions of a network are likely more technical than we will ever need because once we have introduced the notion of of an adjacency matrix, that becomes our go to representation of a network.
-
-\subsection{Adjacency Matrices}\todo[backgroundcolor=yellow]{SEC: Interesting Properties of Networks}
-The objects defined above are meaningless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
+The objects defined above are useless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
 
 \begin{definition}{(Adjacency matrix)}
     Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$.\label{def:adjacency_matrix}\cite[111]{newman10}
@@ -34,7 +28,7 @@ The objects defined above are meaningless without a rigorous way of mathematical
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
             \includegraphics[width=\textwidth]{img/simple_example}
-            \caption{Simple graph}
+            \caption{Simple graph.}
             \label{fig:simple_network}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
@@ -49,11 +43,11 @@ The objects defined above are meaningless without a rigorous way of mathematical
             \end{pmatrix}
             $
             \end{center}
-            \caption{Adjacency matrix}
+            \caption{Adjacency matrix.}
             \label{fig:simple_network_adjacency_matrix}
         \end{subfigure}
     \end{center}
-    \caption{A simple network and its adjacency matrix}
+    \caption{A simple network and its adjacency matrix.}
     \label{fig:simple_network_and_adjacency_matrix}
 \end{figure}
 
@@ -64,9 +58,11 @@ The Network Laplacian is a simple extension of the adjacency matrix with more in
 
 \begin{definition}{(Network Laplacian)}
     The Laplacian of a network $N = (V, E)$, denoted by $L$ is given by the following:
-    $$ L = D - A $$
+    $$ L = D - A, $$
     where $A$ is the adjacency matrix of the network and $D$ is a diagonal matrix containing the degrees of each vertex in the network such that $d_{ii} = \text{deg}(v_i)$ and $d_{ij} = 0$ if $i \not= j$.
 \end{definition}
+
+Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as before and its Laplacian matrix. Of course the largest difference between the laplacian and the presence of the degrees of the nodes on the diagonal. This lets us encode all the data pertaining to a network in one matrix without any extra operations. Both the adjacency matrix and the laplacian are used regularly and each one has it's advantages and disadvantages. One such advantage of the adjacency matrix is that it's very easy to determine if there is a path between two nodes just via matrix multiplication.
 
 \begin{figure}
     \begin{center}
@@ -91,11 +87,10 @@ The Network Laplacian is a simple extension of the adjacency matrix with more in
             \label{fig:simple_network_laplacian}
         \end{subfigure}
     \end{center}
-    \caption{A simple network and its Laplacian}
+    \caption{A simple network and its Laplacian.}
     \label{fig:simple_network_and_laplacian}
 \end{figure}
 
-Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as before and it's Laplacian matrix.
 
 \subsection{Paths}
 When we're analysing a network, we're very often interested in which vertices are reachable from any given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way
@@ -107,21 +102,23 @@ When we're analysing a network, we're very often interested in which vertices ar
 Paths are an important concept in community detection as they allow us to phrase questions in rigorous terms as opposed to loose concepts of connectedness. Paths also give us our first look into the usefulness of the adjacency matrix. Using the adjacency matrix, it is very simple to determine whether there exists a path between two vertices $i$ and $j$. Paraphrasing Newman \cite[137]{newman10}, suppose our adjacency matrix is given by A. If $i$ and $j$ are directly connected then $A_{ij} = 1$ and we are done. If $A_{ij} = 0$ then pick some $k$ such that $A_{ik} = 1$. Then it is simple to see that if $A_{kj} = 1$ then $A_{ik}A_{kj} = 1$ which implies that $i$ and $j$ are connected via $k$. In fact, we can even go so far as to calculate the total number of ways to draw a path of length two between $i$ and $j$, $N^{(2)}_{ij}$, in the following way:
 
 $$
-N_{ij}^{(2)} = \sum_{k=1}^n A_{ik}A_{kj} = [A^2]_{ij}
+N_{ij}^{(2)} = \sum_{k=1}^n A_{ik}A_{kj} = [A^2]_{ij},
 $$
 
-where $[\cdot]_{ij}$ denotes the $(i, j)$-th element of the given matrix. Clearly, this process actually generalises to paths of arbitrary length $r$ and we can see that
+where $[\cdot]_{ij}$ denotes the $(i, j)$-th element of the given matrix. Clearly, this process generalises to paths of arbitrary length $r$ and we can see that
 
 $$
-N_{ij}^{(r)} = [A^r]_{ij}
+N_{ij}^{(r)} = [A^r]_{ij}.
 $$
 
-Also note that this solution counts each path but going in opposite directions. For example, you might have a path going $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 1$ which will also get counted separately by this method as the following $1 \rightarrow 2 \rightarrow 5 \rightarrow 4 \rightarrow 1$. This result isn't very useful, but it goes to show that the adjacency matrix we introduced before is useful and provides insight about the structure of our network. We call a path that starts and ends at the same place a loop and we can actually calculate the number of loops of length $r$ using the spectral properties of the adjacency matrix. Paraphrasing Newman again \cite[137]{newman10}, our adjacency matrix $A$ can be written as $A = UDU^T$ because $A$ is symmetric meaning that it has $n$ real and non-negative eigenvalues with real valued eigenvectors. In this form, $U$ is our matrix of eigenvectors and $D$ is the diagonal matrix containing the eigenvalues. We know that $A^r = (UKU^T)^r = UK^RU^T$ and then the number of loops is given by
+Also note that this solution counts each path but going in opposite directions. For example, you might have a path going $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 1$ which will also get counted separately by this method as the following $1 \rightarrow 2 \rightarrow 5 \rightarrow 4 \rightarrow 1$. This result isn't very useful, but it goes to show that the adjacency matrix we introduced before is useful and provides insight about the structure of our network. 
+
+Furthering our work on paths, we call a path that starts and ends at the same place a loop and we can actually calculate the number of loops of length $r$ using the spectral properties of the adjacency matrix. Paraphrasing Newman again \cite[137]{newman10}, our adjacency matrix $A$ can be written as $A = UDU^T$ because $A$ is symmetric meaning that it has $n$ real and non-negative eigenvalues with real valued eigenvectors. In this form, $U$ is our matrix of eigenvectors and $D$ is the diagonal matrix containing the eigenvalues. We know that $A^r = (UKU^T)^r = UK^RU^T$ and then the number of loops is given by
 
 $$
 \begin{aligned}
-    L_r &= \text{Tr}(UK^rU^T) = \text{Tr}(U^TUK^r) = \text{Tr}(K^r) \\
-    & = \sum_i k_i^r
+    L_r &= \text{Tr}(UK^rU^T) = \text{Tr}(U^TUK^r) = \text{Tr}(K^r), \\
+    & = \sum_i k_i^r,
 \end{aligned}
 $$
 
@@ -131,9 +128,9 @@ where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results
     A geodesic path (more commonly referred to as a shortest path) is a path through a network such that no shorter path exists.
 \end{definition}
 
-Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter}.
+Geodesic paths are more interesting than general paths as they are necessarily self-avoiding as any time a path intersects with itself it adds unnecessary length. Geodesic paths are also used to define some other properties of networks such as the \emph{diameter} and they typically give us a much better understanding of the structure of a network than regular paths do. Generally speaking, when the word ``path" is written in this essay, it refers to a geodesic path for simplicity.
 
-\subsection{Components}
+\subsection{Components, Partitioning and Clustering}
 Components are a natural consequence of the notion of paths. Simply put, components are sets of vertices in the graph that are all connected to each other via paths.
 
 \begin{definition}{(Component)}
@@ -156,63 +153,63 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
 \begin{figure}
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
-            % \includegraphics[width=\textwidth]{img/simple_example}
-            \missingfigure{Strongly connected network}
+            \includegraphics[width=\textwidth]{img/2/high_prob}
             \caption{A strongly connected network}
             \label{fig:strongly_connected_network}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
-            \missingfigure{Loosely connected network}
+            \includegraphics[width=\textwidth]{img/2/low_prob}
             \caption{A loosely connected network}
             \label{fig:loosely_connected_network}
         \end{subfigure}
     \end{center}
-    \caption{Two networks with differing connectedness}
+    \caption{Two networks with differing connectedness rendered using NetworkX\cite{SciPyProceedings_11}}
     \label{fig:connectivity_strengths}
 \end{figure}
 
+\subsection{Partitioning and Clustering}
+We further introduce the ideas of \emph{partitioning} and \emph{clustering}. Clustering is a typical problem in computer science where one is presented with a graph and one wishes to break the graph into $N$ components using an appropriate cut set. The appropriate cut set is usually desired to be minimal. Partitioning and clustering is actually the formalisation of what we're trying to do with community detection where we take a network and figure out where the almost-components are.
 
 \subsection{Degree Distribution}\label{sec:Degree Distribution}
 We already know that the degree of a node is the number of edges incident on that node. In the context of adjacency matrices, the degree of node $i$ is defined by 
 
 $$
-\text{deg}(i) = d_i = \sum_{j=1}^NA_{ij}
+\text{deg}(i) = d_i = \sum_{j=1}^NA_{ij}.
 $$
 
-There also exist similar definitions for both weighted and directed networks. Using this definition of the degree of a matrix, we can define something called the \emph{degree distribution}. The degree distribution, as the name suggests, is a frequency distribution of all the degrees in the network. This distribution is often denoted by the function $p(k)$.
+There also exist similar definitions for both weighted and directed networks. Using this definition of the degree of a matrix, we can define something called the \emph{degree distribution}. The degree distribution, as the name suggests, is a frequency distribution of all the degrees in the network. This distribution is often denoted by the function $p(k)$. This function counts the total number of nodes with degrees greater than or equal to $k$. See, for example, Figure \ref{fig:zachary_degree_diagram}. Image \ref{fig:zachary_karate_club_degree} is a rendering of the Zachary Karate club and \ref{fig:zachary_degree_distribution} is the associated degree distribution.
 
 \begin{figure}
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
-            % \includegraphics[width=\textwidth]{img/simple_example}
-            \missingfigure{Zachary Karate Club}
-            \caption{The Zachary Karate Club dataset}
+            \includegraphics[width=\textwidth]{img/zachary_spring}
+            \caption{The Zachary Karate Club}
             \label{fig:zachary_karate_club_degree}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
-            \missingfigure{Degree distribution of the Zachary Karate Club dataset}
-            \caption{Degree Distribution of the Zachary Karate Club dataset}
-            \label{fig:loosely_connected_network}
+            \includegraphics[width=\textwidth]{img/2/zachary_degree_hist}
+            \caption{Degree Distribution}
+            \label{fig:zachary_degree_distribution}
         \end{subfigure}
     \end{center}
-    \caption{A network and it's associated degree distribution}
-    \label{fig:connectivity_strengths}
+    \caption{A network and its associated degree distribution plotted using NetworkX\cite{SciPyProceedings_11} and Matplotlib.\cite{Hunter:2007}}
+    \label{fig:zachary_degree_diagram}
 \end{figure}
 
 According to Renaud Lambiotte, these degree distributions often have very long tails which are regularly described by a power law. i.e.
 
 $$ p(k) \propto k^{-\gamma}, $$
 
-where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(d)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet\cite{PhysRevE.65.066130}, world wide web\cite{BARABASI200069}, metabolic networks\cite{Jeong2000} and citation networks\cite{Redner1998} all appear to be scale-free.
+where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(k)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet\cite{PhysRevE.65.066130}, world wide web\cite{BARABASI200069}, metabolic networks\cite{Jeong2000} and citation networks\cite{Redner1998} all appear to be scale-free.
 
 \subsection{Clustering Coefficient}
 When thinking about community detection, we're actually interested in the connectedness of different parts of the network and in particular we're interested in the interconnectedness of a set of vertices. One way to measure the interconnectedness of a vertex with the surrounding nodes is using the clustering coefficient. The clustering coefficient counts the number of triangles in the network that include a given vertex. We define the clustering coefficient in the following way
 
-$$ C_i = \frac{\text{number of triangles including the }i\text{th node}}{k_i(k_i-1)/2} $$
+$$ C_i = \frac{\text{number of triangles including the }i\text{th node}}{k_i(k_i-1)/2}. $$
 
 This quantity measures and normalises the number of triangles in the immediate vicinity of the vertex $i$. Using the clustering coefficient, we can extend this to consider the whole network.
 
-$$ C = \frac{1}{N}\sum_{i=1}^NC_i $$
+$$ C = \frac{1}{N}\sum_{i=1}^NC_i. $$
 
 Again this total measure of clustering is normalised such that $0 \leq C \leq 1$.
 
