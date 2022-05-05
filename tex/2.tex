@@ -1,27 +1,25 @@
 Community detection relies on us knowing lots about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later.
 
 \begin{definition}{(Undirected network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An undirected network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$.\cite[1]{oxford:renaud_notes}\label{def:undirected_network}
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An undirected network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$\cite[1]{oxford:renaud_notes}\label{def:undirected_network}.
 \end{definition}
 
 The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
 
 \begin{definition}{(Directed network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$.\cite[1]{oxford:renaud_notes}\label{def:directed_network}
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$\cite[1]{oxford:renaud_notes}\label{def:directed_network}.
 \end{definition}
 
 The intuition for directed graphs, is that edges may only be travelled along in one way. This comes in handy for modelling more intricate systems. The final network type of interest is that of the weighted network.
 
 \begin{definition}{(Weighted network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge.\cite[1]{oxford:renaud_notes}\label{def:weighted_network}
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge\cite[1]{oxford:renaud_notes}\label{def:weighted_network}.
 \end{definition}
-
-% The above definitions of the different types of network are likely more technical than we will ever need because once we have introduced the notion of of an adjacency matrix, that becomes our go to representation of a network.
 
 The objects defined above are useless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
 
 \begin{definition}{(Adjacency matrix)}
-    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$.\label{def:adjacency_matrix}\cite[111]{newman10}
+    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$\label{def:adjacency_matrix}\cite[111]{newman10}.
 \end{definition}
 
 \begin{figure}
@@ -122,7 +120,7 @@ $$
 \end{aligned}
 $$
 
-where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further. \cite[138]{newman10}. Typically, we are interested in types of path known as \emph{geodesic paths}.
+where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further\cite[138]{newman10}. Typically, we are interested in types of path known as \emph{geodesic paths}.
 
 \begin{definition}{(Geodesic Path)}
     A geodesic path (more commonly referred to as a shortest path) is a path through a network such that no shorter path exists.
@@ -161,7 +159,7 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
             \label{fig:loosely_connected_network}
         \end{subfigure}
     \end{center}
-    \caption{Two networks with differing connectedness rendered using NetworkX\cite{SciPyProceedings_11}}
+    \caption{Two Erd\H{o}s-R\'{e}nyi\cite{erdos_renyi}  networks with differing connectedness rendered using NetworkX\cite{SciPyProceedings_11}.}
     \label{fig:connectivity_strengths}
 \end{figure}
 
@@ -189,7 +187,7 @@ There also exist similar definitions for both weighted and directed networks. Us
             \label{fig:zachary_degree_distribution}
         \end{subfigure}
     \end{center}
-    \caption{A network and its associated degree distribution plotted using NetworkX\cite{SciPyProceedings_11} and Matplotlib.\cite{Hunter:2007}}
+    \caption{A network and its associated degree distribution plotted using NetworkX\cite{SciPyProceedings_11} and Matplotlib\cite{Hunter:2007}.}
     \label{fig:zachary_degree_diagram}
 \end{figure}
 
@@ -197,7 +195,7 @@ According to Renaud Lambiotte, these degree distributions often have very long t
 
 $$ p(k) \propto k^{-\gamma}, $$
 
-where $\gamma$ usually takes values between $2$ and $3$.\cite[16]{oxford:renaud_notes} The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(k)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet\cite{PhysRevE.65.066130}, world wide web\cite{BARABASI200069}, metabolic networks\cite{Jeong2000} and citation networks\cite{Redner1998} all appear to be scale-free.
+where $\gamma$ usually takes values between $2$ and $3$\cite[16]{oxford:renaud_notes}. The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(k)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet\cite{PhysRevE.65.066130}, world wide web\cite{BARABASI200069}, metabolic networks\cite{Jeong2000} and citation networks\cite{Redner1998} all appear to be scale-free.
 
 \subsection{Clustering Coefficient}
 When thinking about community detection, we're actually interested in the connectedness of different parts of the network and in particular we're interested in the interconnectedness of a set of vertices. One way to measure the interconnectedness of a vertex with the surrounding nodes is using the clustering coefficient. The clustering coefficient counts the number of triangles in the network that include a given vertex. We define the clustering coefficient in the following way
