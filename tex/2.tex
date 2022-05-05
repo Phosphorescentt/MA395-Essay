@@ -1,25 +1,25 @@
-Community detection relies on us knowing lots about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later.
+Community detection relies on us having sufficient information about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later. The following definitions are inspired by Lambiotte\cite{oxford:renaud_notes} and Newman\cite{newman10}.
 
 \begin{definition}{(Undirected network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An undirected network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$\cite[1]{oxford:renaud_notes}\label{def:undirected_network}.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An \textbf{undirected network} is the pair $(V, E) =: N$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$\label{def:undirected_network}.
 \end{definition}
 
 The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
 
 \begin{definition}{(Directed network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A directed network is the pair $(V, E) = N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$\cite[1]{oxford:renaud_notes}\label{def:directed_network}.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. A \textbf{directed network} is the pair $(V, E) =: N$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$. I.e. if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$\label{def:directed_network}.
 \end{definition}
 
 The intuition for directed graphs, is that edges may only be travelled along in one way. This comes in handy for modelling more intricate systems. The final network type of interest is that of the weighted network.
 
 \begin{definition}{(Weighted network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge\cite[1]{oxford:renaud_notes}\label{def:weighted_network}.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of triples of the form $V^2 \times \mathbb{R}$ such that if $e = (x, y, w) \in E$ then $x, y \in V$. The value $w$ is said to be the weight of the edge and the tuple $(V, E) =: N$ is called a \textbf{weighted network}\label{def:weighted_network}.
 \end{definition}
 
 The objects defined above are useless without a rigorous way of mathematically representing them. To that end, we have to come up with a way of describing a network mathematically. This leads us to the definition of the adjacency matrix:
 
 \begin{definition}{(Adjacency matrix)}
-    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n = |V|$. The adjacency matrix of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$\label{def:adjacency_matrix}\cite[111]{newman10}.
+    Let $N = (V, E)$ be a network and label every vertex $v \in V$ with a number from $1$ to $n := |V|$. The \textbf{adjacency matrix} of a network is the matrix of elements $(A)_{ij}$ such that $a_{ij} = 1$ if $(i, j) \in E$ and $a_{ij} = 0$ if $(i, j) \notin E$. In other words, if nodes $i$ and $j$ are connected by an edge in the network, then the corresponding element in the matrix is $1$. Otherwise, it is $0$\label{def:adjacency_matrix}.
 \end{definition}
 
 \begin{figure}
@@ -49,13 +49,13 @@ The objects defined above are useless without a rigorous way of mathematically r
     \label{fig:simple_network_and_adjacency_matrix}
 \end{figure}
 
-The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but this does not necessarily mean that $a_{ji} = 1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
+The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but $a_{ji}$ is not necessarily equal to $1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
 
 \subsection{The Network Laplacian}
 The Network Laplacian is a simple extension of the adjacency matrix with more interesting properties.
 
 \begin{definition}{(Network Laplacian)}
-    The Laplacian of a network $N = (V, E)$, denoted by $L$ is given by the following:
+    The \textbf{Laplacian} of a network $N = (V, E)$, denoted by $L$ is given by the following:
     $$ L = D - A, $$
     where $A$ is the adjacency matrix of the network and $D$ is a diagonal matrix containing the degrees of each vertex in the network such that $d_{ii} = \text{deg}(v_i)$ and $d_{ij} = 0$ if $i \not= j$.
 \end{definition}
@@ -91,10 +91,10 @@ Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as bef
 
 
 \subsection{Paths}
-When we're analysing a network, we're very often interested in which vertices are reachable from any given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way
+When analysing a network, there is often great interest in which vertices are reachable from any given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way
 
 \begin{definition}{(Path)}
-    Let $N = (V, E)$ be a network. A path is a sequence of vertices $v_1, \dots, v_n \in V$ such that $(v_i, v_{i+1}) \in E$ for all $i = 1, \dots, n-1$. In other words, a path is a sequence of vertices such that every consecutive pair of vertices is connected by an edge in $E$. We say that the length of a path is the number of edges $(v_i, v_{i+1})$ that are traversed by the path. Note that under this definition, we may pass through each vertex in the network more than once.
+    Let $N = (V, E)$ be a network. A \textbf{path} is a sequence of vertices $v_1, \dots, v_n \in V$ such that $(v_i, v_{i+1}) \in E$ for all $i = 1, \dots, n-1$. In other words, a path is a sequence of vertices such that every consecutive pair of vertices is connected by an edge in $E$. We say that the length of a path is the number of edges $(v_i, v_{i+1})$ that are traversed by the path. Note that under this definition, we may pass through each vertex in the network more than once.
 \end{definition}
 
 Paths are an important concept in community detection as they allow us to phrase questions in rigorous terms as opposed to loose concepts of connectedness. Paths also give us our first look into the usefulness of the adjacency matrix. Using the adjacency matrix, it is very simple to determine whether there exists a path between two vertices $i$ and $j$. Paraphrasing Newman \cite[137]{newman10}, suppose our adjacency matrix is given by A. If $i$ and $j$ are directly connected then $A_{ij} = 1$ and we are done. If $A_{ij} = 0$ then pick some $k$ such that $A_{ik} = 1$. Then it is simple to see that if $A_{kj} = 1$ then $A_{ik}A_{kj} = 1$ which implies that $i$ and $j$ are connected via $k$. In fact, we can even go so far as to calculate the total number of ways to draw a path of length two between $i$ and $j$, $N^{(2)}_{ij}$, in the following way:
@@ -103,12 +103,14 @@ $$
 N_{ij}^{(2)} = \sum_{k=1}^n A_{ik}A_{kj} = [A^2]_{ij},
 $$
 
+\noindent
 where $[\cdot]_{ij}$ denotes the $(i, j)$-th element of the given matrix. Clearly, this process generalises to paths of arbitrary length $r$ and we can see that
 
 $$
 N_{ij}^{(r)} = [A^r]_{ij}.
 $$
 
+\noindent
 Also note that this solution counts each path but going in opposite directions. For example, you might have a path going $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 1$ which will also get counted separately by this method as the following $1 \rightarrow 2 \rightarrow 5 \rightarrow 4 \rightarrow 1$. This result isn't very useful, but it goes to show that the adjacency matrix we introduced before is useful and provides insight about the structure of our network. 
 
 Furthering our work on paths, we call a path that starts and ends at the same place a loop and we can actually calculate the number of loops of length $r$ using the spectral properties of the adjacency matrix. Paraphrasing Newman again \cite[137]{newman10}, our adjacency matrix $A$ can be written as $A = UDU^T$ because $A$ is symmetric meaning that it has $n$ real and non-negative eigenvalues with real valued eigenvectors. In this form, $U$ is our matrix of eigenvectors and $D$ is the diagonal matrix containing the eigenvalues. We know that $A^r = (UKU^T)^r = UK^RU^T$ and then the number of loops is given by
