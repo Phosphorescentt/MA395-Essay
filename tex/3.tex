@@ -114,7 +114,7 @@ $$ s_i = \begin{cases}
 where $v_i^{(2)}$ is the $i$-th element of $v_2$. There are a few more minor issues involving constraints that are not discussed here that Lambiotte covers in good detail\cite[27]{oxford:renaud_notes}. This is perhaps the simplest method of community detection, though it is limited in its scope and power due to the fact that it can only separate the network into two groups when in reality we might be interested in $N \gg 2$ groups.
 
 \subsection{Louvain Community Detection}
-To provide some contrast, we will now explore a more advanced method known as Louvain detection, named after the University of Louvain in Belgium. Louvain detection is \emph{extremely} fast and extremely effective and operates on weighted networks as with the aforementioned Ford-Fulkerson method (Section \ref{sec:smallest_cut}). Figure \ref{fig:louvain_results_comparison} shows a comparison of the Louvain method against other contemporary methods. As you can clearly see, Louvain community detection is significantly faster than all other compared methods taking only 152 minutes to compute the community structure of a network with 118 million nodes and 1 billion edges.
+To remedy the aforementioned issue and to introduce some more recent developments in the field, we will now explore a more advanced method known as Louvain detection\cite{Blondel_2008}, named after the University of Louvain in Belgium. Louvain detection is \emph{extremely} fast and \emph{extremely} effective (see Figure \ref{fig:louvain_results_comparison}) and operates on weighted networks as with the aforementioned Ford-Fulkerson method (Section \ref{sec:smallest_cut}). Figure \ref{fig:louvain_results_comparison} shows a comparison of the Louvain method against other contemporary methods. As you can clearly see, Louvain community detection is significantly faster than all other compared methods taking only 152 minutes to compute the community structure of a network with 118 million nodes and 1 billion edges.
 
 \begin{figure}
     \begin{center}
@@ -124,14 +124,13 @@ To provide some contrast, we will now explore a more advanced method known as Lo
     \label{fig:louvain_results_comparison}
 \end{figure}
 
-\subsubsection*{Method}
 The Louvain method is broken into two phases:
 \begin{enumerate}
     \item Modularity optimisation;
     \item Community aggregation.
 \end{enumerate}
 
-To set up the method, we take every node in the network and put it into it's own community i.e. if there are $N$ nodes in the network then there are $N$ communities. Once we have done this, we begin phase one. In phase one we iterate over every node, $i$, in the network and consider it's neighbours, $j$. Then, for each $j$, we consider the change in modularity of the network by adding $i$ to the community that $j$ is already in. We then add $i$ in the original network to the community of $j$ that maximises the increase in modularity. Note that there must be an increase otherwise we do nothing. This process is then repeated until no single move of a vertex $i$ into the same community as $j$ increases the modularity.
+To set up the method, we take every node in the network and put it into it's own community i.e. if there are $N$ nodes in the network then there are $N$ communities. Once we have done this, we begin phase one. In phase one we iterate over every node, $i$, in the network and consider it's neighbours, $j$. Then, for each $j$, we consider the change in modularity of the network by adding $i$ to the community that $j$ is already in. We then add $i$ in the original network to the community of $j$ that maximises the increase in modularity. If no movement of a node $i$ into the community of $j$ increases the modularity, we leave $i$ in its current community and proceed onto the next node.  This process is then repeated until no single move of a vertex $i$ into the same community as $j$ increases the modularity.
 
 Once phase one is completed, we start phase two. Phase two consists of taking all of the communities found in phase one and considering them to be nodes in a network. In this network, the links between nodes are given by the sum of the weights of edges between the respective communities and a self-link is added to every node with a weight equal to the sum of the weights of the links inside the community. We call the application of a phase one followed by a phase two a ``pass" and a diagram of this process can be seen in Figure \ref{fig:louvain_aggregation_diagram}.
 
@@ -143,8 +142,7 @@ Once phase one is completed, we start phase two. Phase two consists of taking al
     \label{fig:louvain_aggregation_diagram}
 \end{figure}
 
-\subsubsection*{Comments}
-As mentioned previously, the Louvain method is extremely efficient, but where does this efficiency come from? The answer to this question is twofold. On one front, the recursive nature of the solution significantly reduces the size of the problem very quickly meaning that after the first pass, even for lager data sets, it can be very quick to find solutions. Secondly, it turns out that after some algebraic manipulation, it's very computationally cheap to calculate the change in modularity for any given move from $i$ into the community $C$:
+As mentioned previously, the Louvain method is extremely efficient, but where does this efficiency come from? The answer to this question is twofold. On one front, the recursive nature of the algorithm significantly reduces the size of the problem very quickly meaning that after the first pass, even for lager data sets, it can be very quick to find solutions. Secondly, it turns out that after some algebraic manipulation, it's very computationally cheap to calculate the change in modularity for any given move from $i$ into the community $C$:
 
 $$ \Delta Q = \left [\frac{\Sigma_{\text{in}} + k_{i \text{in}}}{2m} - \left (\frac{\Sigma_{\text{tot}} + k_i}{2m} \right )^2 \right ] - \left [ \frac{\Sigma_{\text{in}}}{2m} - \left ( \frac{\Sigma_{\text{tot}}}{2m} \right )^2 - \left ( \frac{k_i}{2m} \right )^2\right ], $$
 
@@ -154,4 +152,6 @@ Louvian detection also uses a slightly different definition of modularity that i
 
 $$ Q = \frac{1}{2m} \sum_{i, j} \left [ A_{ij} - \frac{k_i k_j}{2m} \right ] \delta(c_i, c_j), $$
 
-where $A$ is the weighted adjacency matrix for the network, $\delta$ is the Kronecker delta and $c_i$ is the community to which vertex $i$ is assigned. These two qualities, when combined, result in the extrodinary efficiency shown in Figure \ref{fig:louvain_results_comparison}
+where $A$ is the weighted adjacency matrix for the network, $\delta$ is the Kronecker delta and $c_i$ is the community to which vertex $i$ is assigned. These two qualities, when combined, result in the extrodinary efficiency shown in Figure \ref{fig:louvain_results_comparison}.
+
+These are only two examples and are the two extremes of algorithms in the field; one very rudimentary algorithm and one very complex algorithm. Other methods exist from a variety of authors such as Clauset, Newman and Moore\cite{Clauset_2004} and Wakita and Tsurumi\cite{wakita_tsurumi} and each method has its own advantages and disadvantages. Now that examples of methods have been established, we move on to considering applications of these ideas.
