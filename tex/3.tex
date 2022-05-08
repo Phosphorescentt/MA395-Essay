@@ -51,7 +51,32 @@ This definition relies on constructing a matrix $e$ such that $e_{ij}$ is the fr
 % In more detail, local definitions can vary a lot but the efficacy can also vary significantly. For example: cliques. Are cliques communities? Yes!
 
 \subsection{Community Detection via Spectral Smallest Cut}\label{sec:smallest_cut}
-The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut. Referring again to Lambiotte's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities \cite[26-27]{oxford:renaud_notes}. For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
+The simplest way to consider community detection is to think about dividing the network into subnetworks such that the number of edges between all the subnetworks is minimised. This is called a smallest cut and a simple example of such a method is shown in figure \ref{fig:spectral_cut}. Referring again to Lambiotte's notes, we will define a few pieces of machinery that will allow us to algorithmically find the set of edges that separates the communities \cite[26-27]{oxford:renaud_notes}. 
+
+\begin{figure}[H]
+    \begin{center}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{img/3/1}
+            \caption{}
+            \label{}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{img/3/2}
+            \caption{}
+            \label{}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{img/3/3}
+            \caption{}
+            \label{}
+        \end{subfigure}
+    \end{center}
+    \caption{An example of what a minimum cut looks like on a simple network. In (a), the network is fully connected. Then in (b) we have identified the smallest set of edges that disconnect the network (marked in red) and in (c), we have removed the edge creating two disconnected components.}
+    \label{fig:spectral_cut}
+\end{figure}
+
+\newpage
+For simplicity, we restrict ourselves to trying to identify only two communities. Let us assume that we have partitioned the graph into two groups labelled 1 and 2. We then define the number of edges starting in group 1 and ending in group 2 or vice versa by the following quantity:
 
 $$ R = \frac{1}{2} \sum_{\substack{i, j \; \text{in} \\ \text{different} \\ \text{groups}}} A_{ij}. $$
 
@@ -101,12 +126,7 @@ Letting $\lambda_i$ be the eigenvalue of $L$ correspnding to $v_i$, we get the f
 
 $$ R = \sum_i a_iv_i^TL\sum_ja_jv_j = \sum_{ij}a_ia_j\lambda_j\delta{ij} = \sum{i}\lambda_i. $$
 
-Convention dictates that we label the eigenvalues in increasing order, i.e. $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n$. In order to minimise the value of $R$, we wish to chose an $s$ that places as much weight on the smaller eigenvalues as possible. With this in mind, the easiest way to minimise $R$ is to choose $s = (1, 1, \dots) = v_i$ the eigenvector corresponding to $\lambda_i = \lambda_1 = 0$. This, however, is not an interesting solution as all it does is put every node into group 1 and none into group 2. To fix this, we prohibit this solution and find the next best one. The next best solution places as much weight as possible on the second eigenvalue $\lambda_2$ of the Laplacian. To do this, we select an $s$ that is proportional to the second eigenvector, $v_2$. This eigenvector is commonly referred to the \emph{Fiedler vector}. However, due to the constraint that every $s_i = \pm 1$ we can rarely chose an $s$ that is exactly proportional to $v_2$. Lambiotte provides a more comprehensive discussion of this argument, but in this case it is often sufficient to chose $s$ as close to $v_2$ as possible.
-
-\newpage
-
-\noindent
-After some more algebra and manipulation, it transpires that the optimal choice for any $s_i$ under this paradigm is 
+Convention dictates that we label the eigenvalues in increasing order, i.e. $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n$. In order to minimise the value of $R$, we wish to chose an $s$ that places as much weight on the smaller eigenvalues as possible. With this in mind, the easiest way to minimise $R$ is to choose $s = (1, 1, \dots) = v_i$ the eigenvector corresponding to $\lambda_i = \lambda_1 = 0$. This, however, is not an interesting solution as all it does is put every node into group 1 and none into group 2. To fix this, we prohibit this solution and find the next best one. The next best solution places as much weight as possible on the second eigenvalue $\lambda_2$ of the Laplacian. To do this, we select an $s$ that is proportional to the second eigenvector, $v_2$. This eigenvector is commonly referred to the \emph{Fiedler vector}. However, due to the constraint that every $s_i = \pm 1$ we can rarely chose an $s$ that is exactly proportional to $v_2$. Lambiotte provides a more comprehensive discussion of this argument, but in this case it is often sufficient to chose $s$ as close to $v_2$ as possible. After some more algebra and manipulation, it transpires that the optimal choice for any $s_i$ under this paradigm is 
 
 $$ s_i = \begin{cases}
     +1 & \text{if} \; v_i^{(2)} \geq 0, \\
@@ -160,4 +180,5 @@ $$ Q = \frac{1}{2m} \sum_{i, j} \left [ A_{ij} - \frac{k_i k_j}{2m} \right ] \de
 
 where $A$ is the weighted adjacency matrix for the network, $\delta$ is the Kronecker delta and $c_i$ is the community to which vertex $i$ is assigned. These two qualities, when combined, result in the extrodinary efficiency shown in Figure \ref{fig:louvain_results_comparison}.
 
+\newpage
 These are only two examples and are the two extremes of algorithms in the field; one very rudimentary algorithm and one very complex algorithm. Other methods exist from a variety of authors such as Clauset, Newman and Moore \cite{Clauset_2004}, Wakita and Tsurumi \cite{wakita_tsurumi} and Pons and Latapy \cite{JGAA-124} and each method has its own advantages and disadvantages. Now that examples of methods have been established, we move on to considering applications of these ideas.
