@@ -1,16 +1,16 @@
-Community detection relies on us having sufficient information about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later. This chapter also serves a dual purpose: to get the reader thinking about networks formally and all of the different ways that we can interact with them. As such, not everything mentioned in this chapter will be referred to later, but still provides value in the form of thought exercise.
+Community detection relies on us having sufficient information about the underlying structure of a network and to do that we have to understand its properties. This chapter will establish a more formal understanding of networks and will highlight some key properties and methods that we will use to exctract value about community structure later. This chapter also serves a dual purpose: to get the reader thinking formally about networks and all of the different ways that we can interact with them. As such, not everything mentioned in this chapter will be referred to later, but still provides value in the form of thought exercise.
 
 \subsection{Basic Definitions}
 To perform any mathematical operations on a network, we must first formally define what it is we mean by a network. The following definitions are inspired by Lambiotte \cite{oxford:renaud_notes} and Newman \cite{newman10}.
 
 \begin{definition}{(Undirected network)}
-    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$, then $x, y \in V$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$. An \textbf{undirected network} is the pair $(V, E) =: N$. \label{def:undirected_network}.
+    Let $V$ be a set of vertices (nodes) and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$, then $x, y \in V$. An edge $e = (x, y) \in E$ is said to join $x$ and $y$ and $y$ to $x$. An \textbf{undirected network} is the pair $(V, E) =: N$.\label{def:undirected_network}
 \end{definition}
 
 The undirected network is the simplest type of network and on its own has interesting enough properties. However, for the sake of example and application, we will also introduce some other types of network that allow for more detailed models.
 
 \begin{definition}{(Directed network)}
-    Let $V$ be a set of vertices and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$, but if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$. A \textbf{directed network} is the pair $(V, E) =: N$. \label{def:directed_network}.
+    Let $V$ be a set of vertices and let $E$ be a set of pairs of vertices such that if $e = (x, y) \in E$ then $x, y \in V$. An edge $e = (x, y) \in E$ is said to join $x$ to $y$, but if $x$ is joined to $y$ then $y$ is not necessarily joined to $x$. A \textbf{directed network} is the pair $(V, E) =: N$.\label{def:directed_network}
 \end{definition}
 
 The intuition for directed graphs, is that edges may only be travelled along in one way. This comes in handy for modelling more intricate systems. The final network type of interest is that of the weighted network.
@@ -52,7 +52,7 @@ The objects defined above are useless without a rigorous way of mathematically r
     \label{fig:simple_network_and_adjacency_matrix}
 \end{figure}
 
-The adjacency matrix gives us our first way of representing a network. Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but $a_{ji}$ is not necessarily equal to $1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
+The adjacency matrix gives us our first way of representing a network and Figure \ref{fig:simple_network_and_adjacency_matrix} shows a basic example of a network and its associated adjacency matrix. This will form the basis for most of the analytical work we do going forwards. It's worth noting that there are also different types of adjacency matrix corresponding to the different types of network. For example, in the case of a directed network we will have a non-symmetric matrix where $a_{ij} = 1$ if $(i, j) \in E$ but $a_{ji}$ is not necessarily equal to $1$. We also get something similar for weighted networks where we set $a_{ij} = w$ where w is the weight of the edge connecting $i$ and $j$ in $N$.
 
 \subsection{The Network Laplacian}
 The Network Laplacian is a simple extension of the adjacency matrix with more interesting properties.
@@ -60,16 +60,16 @@ The Network Laplacian is a simple extension of the adjacency matrix with more in
 \begin{definition}{(Network Laplacian)}
     The \textbf{Laplacian} of a network $N = (V, E)$, denoted by $L$ is given by the following:
     $$ L = D - A, $$
-    where $A$ is the adjacency matrix of the network and $D$ is a diagonal matrix containing the degrees of each vertex in the network such that $d_{ii} = \text{deg}(v_i)$ and $d_{ij} = 0$ if $i \not= j$.
+    where $A$ is the adjacency matrix of the network and $D$ is a diagonal matrix containing the degrees of each vertex in the network such that $d_{ii} = \text{deg}(i)$ where $i \in V$ and $d_{ij} = 0$ if $i \not= j$.
 \end{definition}
 
-Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as before and its Laplacian matrix. Of course the largest difference between the laplacian and the adjacency matrix is the presence of the degrees of the nodes on the diagonal. This lets us encode all the data pertaining to a network in one matrix without any extra operations. Both the adjacency matrix and the laplacian are used regularly and each one has it's advantages and disadvantages. One such advantage of the adjacency matrix is that it's very easy to determine if there is a path between two nodes just via matrix multiplication.
+Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as before and its Laplacian matrix. Of course the largest difference between the Laplacian and the adjacency matrix is the presence of the degrees of the nodes on the diagonal. This lets us encode all the data pertaining to a network in one matrix without any extra operations. Both the adjacency matrix and the Laplacian are used regularly and each one has it's advantages and disadvantages. One such advantage of the adjacency matrix is that it's very easy to determine if there is a path between two nodes just via matrix multiplication.
 
 \begin{figure}
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
             \includegraphics[width=\textwidth]{img/simple_example}
-            \caption{Simple graph}
+            \caption{Simple graph.}
             \label{fig:simple_network_2}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
@@ -84,7 +84,7 @@ Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as bef
             \end{pmatrix}
             $
             \end{center}
-            \caption{Laplacian}
+            \caption{Laplacian.}
             \label{fig:simple_network_laplacian}
         \end{subfigure}
     \end{center}
@@ -92,7 +92,7 @@ Figure \ref{fig:simple_network_and_laplacian} shows the same simple graph as bef
     \label{fig:simple_network_and_laplacian}
 \end{figure}
 
-
+\newpage
 \subsection{Paths}
 When analysing a network, there is often great interest in which vertices can be reached from a given vertex. As such, we become interested in the idea of a path. A path in a network is defined in the following way:
 
@@ -125,7 +125,8 @@ $$
 \end{aligned}
 $$
 
-where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further\cite[138]{newman10}. Typically, we are interested in types of path known as \emph{geodesic paths}.
+\noindent
+where $k_i$ is the $i$-th entry of the matrix $K$. There exist analogous results for all the different types of networks which Newman discusses further\cite[138]{newman10}. Typically, we are more interested in the shortest path between two nodes as opposed to anything else. Thus we define a type of path known as the \emph{geodesic path}.
 
 \begin{definition}{(Geodesic Path)}
     A geodesic path (more commonly referred to as a shortest path) is a path through a network such that no shorter path exists.
@@ -142,6 +143,7 @@ Components are a natural consequence of the notion of paths. Simply put, compone
 
 Components are an important concept in the study of community detection. Recall the intuition for a community introduced in section \ref{sec:Introduction to Networks}. From here, it is clear to see a similarity between the notion of a community and that of a component. Loosely put, a community is a subset of a network that is \emph{nearly} a component.
 
+\newpage
 \subsection{Cut Sets}
 Cut sets, as the name would suggest, are sets of vertices that, if removed, cut the network into multiple components. 
 
@@ -154,22 +156,23 @@ We also have the notion of a minimum cut set which is a cut set of minimum cardi
 \begin{figure}
     \begin{center}
         \begin{subfigure}[b]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{img/2/high_prob}
+            \includegraphics[width=\textwidth]{img/2/complete}
             \caption{A strongly connected network}
             \label{fig:strongly_connected_network}
         \end{subfigure}
         \begin{subfigure}[b]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{img/2/low_prob}
+            \includegraphics[width=\textwidth]{img/2/path}
             \caption{A loosely connected network}
             \label{fig:loosely_connected_network}
         \end{subfigure}
     \end{center}
-    \caption{Two Erd\H{o}s-R\'{e}nyi \cite{erdos59a}  networks with differing connectedness rendered using NetworkX \cite{SciPyProceedings_11}.}
+    \caption{Two networks with differing connectedness. In (a) we must remove at least 4 edges to create two components, but in (b) we must remove only 1. Rendered using NetworkX \cite{SciPyProceedings_11}.}
     \label{fig:connectivity_strengths}
 \end{figure}
 
 To make a link to computer science, we further introduce the ideas of \emph{partitioning} and \emph{clustering}. Clustering is a typical problem in computer science where one is presented with a graph and one wishes to break the graph into $N$ components using an appropriate cut set. The appropriate cut set is usually desired to be minimal. Partitioning and clustering is the formalisation of community detection where we take a network and figure out where the almost-components are via finding a smallest cut. This is discussed in more detail in Section \ref{sec:smallest_cut}.
 
+\newpage
 \subsection{Degree Distribution}\label{sec:Degree Distribution}
 We already know that the degree of a node is the number of edges incident on that node. In the context of adjacency matrices, the degree of node $i$ is defined by 
 
@@ -196,10 +199,11 @@ There also exist similar definitions for both weighted and directed networks. Us
     \label{fig:zachary_degree_diagram}
 \end{figure}
 
-According to Renaud Lambiotte, these degree distributions often have very long tails which are regularly described by a power law:
+According to Renaud Lambiotte, these degree distributions often have very long tails which are regularly described by a power law
 
 $$ p(k) \propto k^{-\gamma}, $$
 
+\noindent
 where $\gamma$ usually takes values between $2$ and $3$ \cite[16]{oxford:renaud_notes}. The relationship above holds approximately until some ``cutoff degree" where the structure changes and $p(k)$ quickly decreases to $0$. Networks that have a degree distribution of this form are commonly called scale-free and many models of real world networks end up having this property. For example, the internet \cite{PhysRevE.65.066130}, world wide web \cite{BARABASI200069}, metabolic networks \cite{Jeong2000} and citation networks \cite{Redner1998} all appear to be scale-free.
 
 \subsection{Clustering Coefficient}
@@ -211,6 +215,7 @@ This quantity measures and normalises the number of triangles in the immediate v
 
 $$ C = \frac{1}{N}\sum_{i=1}^NC_i. $$
 
+\noindent
 Again this total measure of clustering is normalised such that $0 \leq C \leq 1$.
 
 % \subsection{Centrality}
@@ -243,17 +248,20 @@ The core idea of centrality is to formalise the importance of certain nodes in t
 
 $$ \text{closeness}_i = \frac{N - 1}{\sum_{j=1; j\not=i}^N d(i, j)}, $$
 
+\noindent
 where $d(i, j)$ is the length of a geodesic path between $i$ and $j$. As an initial measure of centrality, this holds up well. It clearly meets the criterion of identifying nodes that are important in the network as nodes that are close to most other nodes have a very high closeness centrality whilst nodes that exist on the peripherals of a network have a low closeness centrality.
 
-However, this measure doesn't consider the importance of nodes when traversing the network. Betweeness centrality looks to solve this problem by counting the each node's contribution to the number of shortest paths that exist in the network. Betweeness centrality is calculated in the following way:
+However, this measure doesn't consider the importance of nodes when traversing the network. Betweenness centrality looks to solve this problem by counting the each node's contribution to the number of shortest paths that exist in the network. Betweenness centrality is calculated in the following way:
 
 $$ \text{betweenness}_i = \frac{2}{(N-1)(N-2)}\sum_{j=1; j\not=i}^N \sum_{l=1; l\not=i}^{j-1} \frac{\sigma_{jl}^i}{\sigma_{jl}}, $$
 
+\noindent
 where $\sigma_{jl}$ denotes the total number of shortest paths connecting nodes $j$ and $l$ and $\sigma^i_{jl}$ is the number of such paths containing the node $i$. This measure clearly fixes the issue that closeness centrality had by considering how many paths use a given node $i$, but what if a node rarely contributes to shortest paths, but often contributes to near-shortest paths? We would expect a good measure of the importance of a node in a network to use at least some contribution from near shortest paths. Katz centrality does this by considering all paths connecting a node to every other node and giving longer paths less weight. Katz centrality is calculated as follows:
 
 $$ \text{Katz}_j = \sum_{i=1}^N[(I - \alpha A)^{-1}]_{ij}, $$
 
-where $\alpha \in (0, 1)$ is an absolute constant. These methods all build up to more complicated measures such as PageRank \cite{pagerank} which solves exactly the same problem, but using more advanced and intricate techniques and not necessarily on undirected networks.
+\noindent
+where $\alpha \in (0, 1)$ is an absolute constant. These methods all build up to more complex measures such as PageRank \cite{pagerank} which solves exactly the same problem, but using more advanced and intricate techniques and not necessarily on undirected networks.
 
 \subsection{Spectral Properties}
 The final properties of interest are spectral in nature. Spectral properties are properties that are based on the eigendecomposition of either the adjacency matrix, the Laplacian or a modified version of the Laplacian called the normalised Laplacian. If the Laplacian is defined by
@@ -262,4 +270,4 @@ $$ L = D - A, $$
 then the normalised Laplacian is given by 
 $$ \tilde L = D^{-1/2}LD^{-1/2} = I - D^{-1/2}AD^{-1/2}. $$
 
-By definition, the adjacency matrix, the Laplacian and the normalised Laplacian are symmetric (for an undirected network). This means that the eigenvalues of each matrix are all real and the corresponding eigenvectors form an orthonormal basis. It's important to note that the two Laplacian matrices always have $\lambda_1 = 0$. In fact, if the network is connected, $\lambda_1 = 0$ and $\lambda_i > 0 \; \forall i > 1$. This is our first spectral property of a matrix. More advanced spectral properties are used to solve community detection problems such as finding a minimum cut (see section \ref{sec:smallest_cut}). Introduction of spectral ideas concludes this section on properties of interest. Now that all of the necessary vocabulary and concepts are introduced, we are ready to discuss community detection.
+By definition, the adjacency matrix, the Laplacian and the normalised Laplacian are symmetric (for an undirected network). This means that the eigenvalues of each matrix are all real and the corresponding eigenvectors form an orthonormal basis. It's important to note that the two Laplacian matrices always have $\lambda_1 = 0$. In fact, if the network is connected, $\lambda_1 = 0$ and $\lambda_i > 0 \; \forall i > 1$. This is our first spectral property of a matrix. More advanced spectral properties are used to solve community detection problems such as finding a minimum cut (see section \ref{sec:smallest_cut}). The introduction of spectral ideas concludes this section on properties of interest. Now that all of the necessary vocabulary and concepts are introduced, we are ready to discuss community detection.
