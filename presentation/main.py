@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 ns = 100
-p = 0.3
+p = 0.7
 
 G = nx.connected_caveman_graph(5, 5)
 
